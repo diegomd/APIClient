@@ -1,0 +1,91 @@
+@(title: String)
+
+<head>
+	<title>Playground</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="pt-br" />
+	<meta name="author" content="Diego Duarte" />
+	<meta name="copyright" content="Diego Duarte" />
+	<meta name="description" content="" />
+	<meta http-equiv="cache-control" content="public" />
+	<meta http-equiv="expires" content = "0" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="all" />
+
+	<!-- CSSs -->
+	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap-responsive.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+	<!-- SCRIPTs -->
+	<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/bootstrap/bootstrap.js")" type="text/javascript"></script>
+	
+</head>
+
+
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="{% url main %}">Playground</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2">
+					<div class="well sidebar-nav">
+							<ul class="nav nav-list">
+								<li><a href="#">Home</a></li>
+								
+								<li class="nav-header">Methods</li>
+								<li class="active"><a href="#">/medias</a></li>
+								<li><a href="#">/channels</a></li>
+							</ul>
+					</div>
+		        </div>
+				<div class="span10">
+						<div id="home">
+						<h3>/medias</h3>
+						
+						<form>
+						    
+						    <div class="input-prepend">
+						    	<span class="add-on">APIKey</span><input type="text" maxlength="32" class="span4">
+						    </div>
+						    
+						    <legend>Advanced Settings</legend>
+						    
+						    <label>API Base URL</label>
+						    <input type="text" class="span4">
+						    
+						    <label>Timeout</label>
+						    <input type="text" class="span4">
+						    
+						    <legend>Options</legend>
+						    <label>Search</label>
+						    <input type="text" class="span4">
+						    
+						    <label>limit</label>
+						    <input type="text" class="span4">
+						    
+						    <legend>Request</legend>
+						    <legend>Response</legend>
+						    
+						    <button type="submit" class="btn">Enviar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+
+</body>
+</html>
