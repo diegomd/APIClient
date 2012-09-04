@@ -1,4 +1,4 @@
-@(title: String)
+@(title: String)(response: String)
 
 <head>
 	<title>Playground</title>
@@ -21,7 +21,7 @@
 	<!-- SCRIPTs -->
 	<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/bootstrap/bootstrap.js")" type="text/javascript"></script>
-	
+		
 </head>
 
 
@@ -53,7 +53,7 @@
 					</div>
 		        </div>
 				<div class="span10">
-						<div id="home">
+					<div id="home">
 						<h3>/medias</h3>
 						
 						<form>
@@ -62,7 +62,7 @@
 						    	<span class="add-on">APIKey</span><input type="text" maxlength="32" class="span4">
 						    </div>
 						    
-						    <legend>Advanced Settings</legend>
+						    <legend>Request Settings</legend>
 						    
 						    <label>API Base URL</label>
 						    <input type="text" class="span4">
@@ -70,22 +70,155 @@
 						    <label>Timeout</label>
 						    <input type="text" class="span4">
 						    
-						    <legend>Options</legend>
-						    <label>Search</label>
-						    <input type="text" class="span4">
+						    <legend>Request Options</legend>
 						    
-						    <label>limit</label>
-						    <input type="text" class="span4">
 						    
-						    <legend>Request</legend>
-						    <legend>Response</legend>
-						    
+   						    <div class="input-prepend">
+						    	<span class="add-on">first</span><input type="text" maxlength="16" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">limit</span><input type="text" maxlength="16" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">search</span><input type="text" maxlength="64" class="span4">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">recursiveChannel</span><input type="text" maxlength="5" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">filter</span><input type="text" maxlength="64" class="span4">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">orderBy</span><input type="text" maxlength="32" class="span4">
+						    </div>
+
+							<div class="btn-group">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+									Sort
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a id="sort_asc">asc</a>
+									</li>
+									
+									<a id="sort_desc"href="#">desc</a>
+								</ul>
+							</div>
+						    <br/><br/>
 						    <button type="submit" class="btn">Enviar</button>
 						</form>
+
+					    <div id="request">
+					    	<legend>Request</legend>
+													    	
+							<ul class="nav nav-tabs">
+							  <li class="active">
+							    <a href="#">HTML</a>
+							  </li>
+							  <li><a href="#">Java</a></li>
+							</ul>
+											    	
+					    	<div id="request_html">
+					    		<pre class="span10">HTML request...</pre>
+					    	</div>
+ 						    	<div id="request_java">
+					    		<pre class="span10">Java request...</pre>
+					    	</div>
+					    	
+					    </div>
+
+					    <div id="response">
+					    	<legend>Response</legend>
+					    	<pre class="span10">@Xml(response)</pre>
+					    </div>
+
+
+						<!--
+							<div id="code">  
+								<pre>
+									<code>
+										<iframe id="iframe" src="http://fast.api.liquidplatform.com/2.0/medias/?key=18a3dcacfff63aca5dd93594eb658098&first=0&limit=30&ordeBy=lastModified&sort=desc" width="800" height="300"></iframe>
+									</code>
+								</pre>
+							</div>
+						 -->
+												
+						
 					</div>
 				</div>
 			</div>
 	</div>
+
+
+<script language="javascript">
+	
+	$(document).ready(function() {
+
+		//alert($("#iframe").contents().find("fileName").html());
+		//alert($("#iframe").contents().html());
+
+		//$('#iframe').load(function(){this.contentWindow.print();$(this).unbind('load');}).attr('src', "http://fast.api.liquidplatform.com/2.0/medias/?key=18a3dcacfff63aca5dd93594eb658098&first=0&limit=30&ordeBy=lastModified&sort=desc&filter=lastModified");
+		/*
+		$("#iframe").attr('src',"http://fast.api.liquidplatform.com/2.0/medias/?key=18a3dcacfff63aca5dd93594eb658098&first=0&limit=30&ordeBy=lastModified&sort=desc&filter=lastModified");
+		
+		var frame = document.getElementById('iframe');
+		frame = frame.contentWindow;
+		
+		frame.focus();
+		//alert(frame.print());
+		alert(frame);
+
+		//$("#response_text").html(frame);
+		
+		$("#response_text").val(frame);
+		alert($("#response_text").val());
+
+		//escape($("#code").html());
+		//$("#code2").html(escape($("#code").html()));
+
+		*/
+		
+		
+		//alert("Hello!");
+
+		//var url = "http://fast.api.liquidplatform.com/2.0/medias/?key=18a3dcacfff63aca5dd93594eb658098&first=0&limit=30&ordeBy=lastModified&sort=desc&filter=lastModified ";
+		//var url = "http://teclamkt.com.br"
+		
+		//var url = "http://www.evolutionconsulting.com.br/";
+		
+		
+		//var url = "http://www.teclamkt.com.br/site_media/css/estilo_login.css";
+		/*
+		var url = "http://fast.api.liquidplatform.com/2.0/medias/?key=18a3dcacfff63aca5dd93594eb658098&first=0&limit=30&ordeBy=lastModified&sort=desc&filter=lastModified ";
+		$.get(url, function(data) {
+		    alert("Data Loaded: " + data);
+		});
+		*/
+		
+		
+
+		/*
+		$.ajax({
+		     url:"http://docs.liquidplatform.com.br	",
+		     dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+		     success:function(json){
+		         // do stuff with json (in this case an array)
+		         alert("Success");
+		     },
+		     error:function(){
+		         alert("Error");
+		     },
+		});
+		*/
+		
+	});
+</script>
 
 </body>
 </html>
