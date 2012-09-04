@@ -1,7 +1,10 @@
 package com.sambatech.apiclient;
 
+import com.sambatech.apiclient.filter.APIFilter;
+import com.sambatech.apiclient.filter.APIFilterParams;
 import com.sambatech.apiclient.http.HttpResponse;
 import com.sambatech.apiclient.http.HttpUtils;
+import com.sambatech.apiclient.response.Medias;
 
 public class LiquidAPIClient {
 
@@ -27,13 +30,69 @@ public class LiquidAPIClient {
 	/****************************************************************************************************
 	 **** API Methods ***********************************************************************************
 	 ****************************************************************************************************/
-	public void getMedias() {
-		String url = apiBaseUrl + "/" + MEDIAS_ENDPOINT + "?key="+ apiKey +"&limit=2";
+	public Medias getMedias(APIFilter apiFilter) {
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT, 
+													APIFilterParams.SEARCH,
+													APIFilterParams.RECURSIVE_CHANNEL,
+													APIFilterParams.FILTER,
+													APIFilterParams.ORDERBY,
+													APIFilterParams.SORT);
 		
+		String url = apiBaseUrl + "/" + MEDIAS_ENDPOINT + "?key="+ apiKey + parameters;
 		HttpResponse httpResponse = HttpUtils.get(url);
 		
-		System.out.println(httpResponse.getResponseBody());
+		Medias medias = new Medias();
+		medias.setHttpResponse(httpResponse);
 		
+		return medias;
+	}
+	
+	/****************************************************************************************************
+	 **** Build parameters ******************************************************************************
+	 ****************************************************************************************************/
+	private String getParameters(APIFilter apiFilter, APIFilterParams ... params) {
+		StringBuilder parameters = new StringBuilder();
+		
+		for( APIFilterParams param : params ) {
+			switch(param) {
+				case FIRST:
+					parameters.append( buildParam( APIFilterParams.FIRST, apiFilter.getFirst()) );
+					break;
+				case LIMIT:
+					parameters.append( buildParam( APIFilterParams.LIMIT, apiFilter.getLimit()) );
+					break;
+				case SEARCH:
+					parameters.append( buildParam( APIFilterParams.SEARCH, apiFilter.getSearch()) );
+					break;
+				case RECURSIVE_CHANNEL:
+					parameters.append( buildParam( APIFilterParams.RECURSIVE_CHANNEL, apiFilter.getRecursiveChannel()) );
+					break;
+				case FILTER:
+					parameters.append( buildParam( APIFilterParams.FILTER, apiFilter.getFilter()) );
+					break;
+				case ORDERBY:
+					parameters.append( buildParam( APIFilterParams.ORDERBY, apiFilter.getOrderBy()) );
+					break;
+				case SORT:
+					parameters.append( buildParam( APIFilterParams.SORT, apiFilter.getSort()) );
+					break;
+			}
+		}
+		
+		return parameters.toString();
+	}
+	
+	private String buildParam(Object name, Object value) {
+		if(value == null) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("&");
+		sb.append(name);
+		sb.append("=");
+		sb.append(value);
+		return sb.toString();
 	}
 	
 	/****************************************************************************************************
