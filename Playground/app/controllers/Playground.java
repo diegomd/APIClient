@@ -1,56 +1,48 @@
 package controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import shared.HTTPUtils;
 import shared.Utils;
 import views.html.playground;
 
+import com.sambatech.apiclient.LiquidAPIClient;
+import com.sambatech.apiclient.filter.APIFilter;
+import com.sambatech.apiclient.filter.OrderBy;
+import com.sambatech.apiclient.filter.Sort;
+import com.sambatech.apiclient.response.Medias;
+
 public class Playground extends Controller {
-
-
+	
+	/****************************
+	 * Endpoint methods
+	 ****************************/
 	public static Result index() {
-		/*
-		LiquidAPIClient apiClient = new LiquidAPIClient();
-		apiClient.setTeste("ILUYILY");
-		*/
 		
 		APIRequest request = getForm(APIRequest.class);
 		
-		if (request == null || request.apikey == null) {
-			return ok(playground.render("test","..."));
-		}
-		else {
-			
-			//TODO use the 'request' object 
-			
-			Map<String, String> queryParameters = new HashMap<String, String>();
-			queryParameters.put("key", "18a3dcacfff63aca5dd93594eb658098");
-			queryParameters.put("first", "0");
-			queryParameters.put("limit", "30");
-			queryParameters.put("orderBy", "lastModified");
-			queryParameters.put("sort", "desc");
-			String response = HTTPUtils.getStringResponse("http://fast.api.liquidplatform.com/2.0/medias/", queryParameters);
-			
-			return ok(playground.render("test",Utils.transformXML(response)));			
+		if (request.apikey == null) {
+			return ok(playground.render("...","..."));
 		}
 		
-	}
+		APIFilter apiFilter = getAPIFilter(request);
 
-	
-	static <C> C getForm(Class<C> c) {
+		LiquidAPIClient liquidAPIClient = new LiquidAPIClient(request.apikey);
+		Medias medias = liquidAPIClient.getMedias(apiFilter);
 		
-		Form<C> formResult = form(c);
-		C result = formResult.bindFromRequest().get();
-
-		return result;		
+		//TODO test headers to avoid null pointer
+		String requestedUrl = medias.getHttpResponse().getUrl();
+		String responseBody = medias.getHttpResponse().getResponseBody();
+		
+		return ok(playground.render(requestedUrl, Utils.transformXML(responseBody)));
 	}
 	
+
+	/****************************
+	 * Request maps 
+	 ****************************/
 	public static class APIRequest{
+		public String endpoint;
 		public String apikey;
 		
 		public Integer first;
@@ -63,11 +55,59 @@ public class Playground extends Controller {
 		
 		@Override
 		public String toString() {
-			return "APIRequest [APIKey=" + apikey + ", first=" + first
-					+ ", limit=" + limit + ", search=" + search
-					+ ", recursiveChannel=" + recursiveChannel + ", filter="
-					+ filter + ", orderBy=" + orderBy + ", sort=" + sort + "]";
+			return "APIRequest [endpoint=" + endpoint + ", apikey=" + apikey
+					+ ", first=" + first + ", limit=" + limit + ", search="
+					+ search + ", recursiveChannel=" + recursiveChannel
+					+ ", filter=" + filter + ", orderBy=" + orderBy + ", sort="
+					+ sort + "]";
 		}
 		
 	}
+
+	
+
+	/****************************
+	 * Helper methods
+	 ****************************/
+	static <C> C getForm(Class<C> c) {
+		
+		Form<C> formResult = form(c);
+		C result = formResult.bindFromRequest().get();
+
+		return result;		
+	}
+	
+	private static APIFilter getAPIFilter(APIRequest request) {
+		
+		System.out.println(request.toString());
+		
+		APIFilter apiFilter = new APIFilter();
+
+		if (request.first != null)
+			apiFilter.setFirst(request.first);
+		
+		if (request.limit != null)
+			apiFilter.setLimit(request.limit);
+		
+		if (request.recursiveChannel != null)
+			apiFilter.setRecursiveChannel(request.recursiveChannel);
+		
+		if (request.filter != null && request.filter.length() > 0) 
+			apiFilter.setFilter(request.filter);
+		
+		if (request.search != null && request.search.length() > 0)
+			apiFilter.setSearch(request.search);
+		
+		
+		if (request.orderBy != null && request.orderBy.length() > 0)
+			apiFilter.setOrderBy(OrderBy.valueOf(request.orderBy));
+		
+		
+		if (request.sort != null && request.sort.length() > 0)
+			apiFilter.setSort(Sort.valueOf(request.sort));
+		
+		
+		return apiFilter;
+	}
+
 }

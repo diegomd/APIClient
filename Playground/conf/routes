@@ -6,7 +6,8 @@
 GET     /                           controllers.Application.index()
 
 # Playground
-GET     /playground					controllers.Playground.index()
+GET      /playground					controllers.Playground.index()
+POST     /playground					controllers.Playground.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
