@@ -34,6 +34,8 @@ public class Playground extends Controller {
 		String requestedUrl = medias.getHttpResponse().getUrl();
 		String responseBody = medias.getHttpResponse().getResponseBody();
 		
+		System.out.println(Utils.transformXML(responseBody));
+		
 		return ok(playground.render(requestedUrl, Utils.transformXML(responseBody)));
 	}
 	

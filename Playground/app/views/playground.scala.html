@@ -16,11 +16,15 @@
 	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap-responsive.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/syntaxhighlighter/shCoreDefault.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
 	<!-- SCRIPTs -->
 	<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/bootstrap/bootstrap.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shCore.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shBrushJava.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shBrushXml.js")" type="text/javascript"></script>
 		
 </head>
 
@@ -111,20 +115,22 @@
 
 						<!-- Request -->
 						
-					    <div id="request">
+					    <div name="request" id="request">
 					    	<legend>Request</legend>
 													    	
 							<ul class="nav nav-tabs">
-							  <li class="active">
-							    <a href="#">HTML</a>
+							  <li id="request_html_li">
+							    <a href="#request" id="request_html_link">HTML</a>
 							  </li>
-							  <li><a href="#">Java</a></li>
+							  <li id="request_java_li">
+							  	<a href="#request" id="request_java_link">Java</a>
+							  </li>
 							</ul>
 											    	
 					    	<div id="request_html">
 					    		<pre class="span10">@requestedUrl</pre>
 					    	</div>
- 						    	<div id="request_java">
+ 						    <div id="request_java">
 					    		<pre class="span10">Java request... TODO</pre>
 					    	</div>
 					    	
@@ -134,12 +140,17 @@
 
 					    <div id="response">
 					    	<legend>Response</legend>
-					    	<pre class="span10">@Xml(response)</pre>
+					    	<div id="response2">
+					    		<pre class="brush: xml">@Xml(response)</pre>
+					    	</div>
 					    </div>
 
 						
 					</div>
 				</div>
+				<div class="span3">
+				</div>
+				
 			</div>
 	</div>
 
@@ -151,12 +162,41 @@
 	});
 	*/
 
+	function showJavaRequest() {
+		$("#request_html").hide();
+		$("#request_java").show();
+
+		$("#request_java_li").addClass("active");
+		$("#request_html_li").removeClass("active");
+	}
+
+	function showHtmlRequest() {
+		$("#request_java").hide();
+		$("#request_html").show();
+		
+		$("#request_html_li").addClass("active");
+		$("#request_java_li").removeClass("active");
+	}
+	
+	
+	
+	$("#request_java_link").live('click', function(){
+		showJavaRequest();
+     });
+
+	$("#request_html_link").live('click', function(){
+		showHtmlRequest();
+     });
+
 	$("#send").live('click', function(){
 		$("#form").submit();
      });
+    
 	
 	$(document).ready(function() {
-	
+		showHtmlRequest();
+
+		SyntaxHighlighter.all();
 	});
 </script>
 
