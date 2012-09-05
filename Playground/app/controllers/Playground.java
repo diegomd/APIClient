@@ -24,13 +24,16 @@ public class Playground extends Controller {
 	public static Result index() {
 		APIRequest apiRequest = getForm(APIRequest.class);
 		PlaygroundResponse playgroundResponse = new PlaygroundResponse();
-		playgroundResponse.endpoint = apiRequest.endpoint;
+		playgroundResponse.apikey = apiRequest.apikey;
 		
 		if (apiRequest.apikey == null) {
 			playgroundResponse.url = "...";
 			playgroundResponse.responseBody = "...";
+			playgroundResponse.endpoint = "/medias";
 			return ok(playground.render(playgroundResponse));
 		}
+		
+		playgroundResponse.endpoint = apiRequest.endpoint;
 		
 		APIFilter apiFilter = getAPIFilter(apiRequest);
 

@@ -51,8 +51,10 @@
 								<li><a href="#">Home</a></li>
 								
 								<li class="nav-header">Methods</li>
-								<li class="active"><a href="#">/medias</a></li>
-								<li><a href="#">/channels</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-medias"><a id="endpoint-medias">/medias</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-count"><a id="endpoint-medias-count">/medias/count</a></li>
+								<li class="endpoint-li" id="li-endpoint-channels"><a id="endpoint-channels">/channels</a></li>
 							</ul>
 					</div>
 		        </div>
@@ -62,10 +64,10 @@
 						<h3>/medias</h3>
 
 						<form id="form" method="post">
-							<input type="hidden" name="endpoint" class="span4" value="/medias">
+							<input type="hidden" id="endpoint-field" name="endpoint" class="span4" value="">
 						    
 						    <div class="input-prepend">
-						    	<span class="add-on">APIKey</span><input type="text" name="apikey" maxlength="32" class="span4">
+						    	<span class="add-on">APIKey</span><input type="text" name="apikey" maxlength="32" class="span4" value="@playgroundRequest.apikey">
 						    </div>
 						    
 						    
@@ -74,33 +76,33 @@
 							<div class="row-fluid">
 								<div id="search-field">
 									<label>Search</label>
-									<input type="text" name="search" maxlength="64" class="span8">
+									<input type="text" name="search" maxlength="64" class="input-field span8">
 								</div>
 							</div>
 							
 							<div class="row-fluid">
 								<div id="first-field" class="span3">
 									<label>First</label>
-									<input type="text" name="first" maxlength="16"  class="span12">
+									<input type="text" name="first" maxlength="16"  class="input-field span12">
 								</div>
 								
 								<div id="limit-field" class="span3">
 									<label>Limit</label>
-									<input type="text" name="limit" maxlength="16"  class="span12">
+									<input type="text" name="limit" maxlength="16"  class="input-field span12">
 								</div>
 							</div>
 						  
 							<div class="row-fluid">
 								<div id="filter-field" class="span8">
 									<label>Filter</label>
-									<input type="text" name="filter" maxlength="64" class="span12">
+									<input type="text" name="filter" maxlength="64" class="input-field span12">
 								</div>
 							</div>
 
 						  	<div class="row-fluid">
 						  		<div id="orderby-field" class="span3">
 		   						    <label>OrderBy</label>
-								    <input type="text" name="orderBy" maxlength="32" class="span12">
+								    <input type="text" name="orderBy" maxlength="32" class="input-field span12">
 								</div>
 								<div id="sort-field" class="span3">
 		   						    <label>Sort</label>
@@ -198,7 +200,6 @@
 	}
 	
 	
-	
 	$("#request_java_link").live('click', function(){
 		showJavaRequest();
      });
@@ -210,11 +211,67 @@
 	$("#send").live('click', function(){
 		$("#form").submit();
      });
+
+
+
+	function showOnlyFields(fieldArray) {
+		
+		$("[id$='field']").hide();
+		
+		for(i=0;i<fieldArray.length;i++){
+			$("#"+fieldArray[i]).show();
+		}
+	}
+
+	function configureEndPoint(endpointUri) {
+
+		$(".endpoint-li").removeClass("active");
+		$("#endpoint-field").val(endpointUri);
+		$(".input-field").val("");
+		
+		switch(endpointUri) {
+			
+			case "/medias":
+				$("#li-endpoint-medias").addClass("active");
+				showOnlyFields([ "search-field", "first-field", "limit-field", "filter-field", "orderby-field", "sort-field", "recursivechannel-field" ]);
+				break;
+	
+			case "/medias/count":
+				$("#li-endpoint-medias-count").addClass("active"); 
+				showOnlyFields([ "first-field" ]);
+				break;
+
+			case "/channels":
+				$("#li-endpoint-channels").addClass("active");
+				showOnlyFields([ "filter-field", "limit-field", "first-field"]);
+				break;				
+
+			default:
+				configureEndPoint("/medias");
+
+		}
+
+	}
+
+	
+	/* Events */
+	$("#endpoint-medias").live('click', function(){
+		configureEndPoint("/medias");
+    });
+	
+	$("#endpoint-medias-count").live('click', function(){
+		configureEndPoint("/medias/count");
+     });
+
+	$("#endpoint-channels").live('click', function(){
+		configureEndPoint("/channels");
+     });
     
+
 	
 	$(document).ready(function() {
 		showHtmlRequest();
-
+		configureEndPoint("@playgroundRequest.endpoint");
 		SyntaxHighlighter.all();
 	});
 </script>
