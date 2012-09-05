@@ -12,6 +12,8 @@ import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
+
+import controllers.response.PlaygroundResponse;
 import views.html.playground;
 
 public class Playground extends Controller {
@@ -20,11 +22,14 @@ public class Playground extends Controller {
 	 * Endpoint methods
 	 ****************************/
 	public static Result index() {
-		
 		APIRequest apiRequest = getForm(APIRequest.class);
+		PlaygroundResponse playgroundResponse = new PlaygroundResponse();
+		playgroundResponse.endpoint = apiRequest.endpoint;
 		
 		if (apiRequest.apikey == null) {
-			return ok(playground.render("...","..."));
+			playgroundResponse.url = "...";
+			playgroundResponse.responseBody = "...";
+			return ok(playground.render(playgroundResponse));
 		}
 		
 		APIFilter apiFilter = getAPIFilter(apiRequest);
@@ -33,16 +38,23 @@ public class Playground extends Controller {
 		HttpRequest httpRequest;
 		try {
 			httpRequest = liquidAPIClient.getMediasRequest(apiFilter, true);
-			String responseBody = httpRequest.getResponseBody();
-			String requestedUrl = httpRequest.getUrl();
-			responseBody = Utils.transformXML(responseBody);
-			System.out.println(responseBody);
-			return ok(playground.render(requestedUrl, responseBody));
+			String responseBody = Utils.transformXML( httpRequest.getResponseBody() );
+			
+			playgroundResponse.url = httpRequest.getUrl();
+			playgroundResponse.responseBody = responseBody;
+			
+			return ok(playground.render(playgroundResponse));
 
 		} catch (RequestException e) {
-			return ok(playground.render(e.getHttpRequest().getUrl(),e.getHttpRequest().getResponseBody()));
+			playgroundResponse.url = e.getHttpRequest().getUrl();
+			playgroundResponse.responseBody = e.getHttpRequest().getResponseBody();
+			
+			return ok(playground.render(playgroundResponse));
 		} catch (ParserException e) {
-			return ok(playground.render("...", "Sorry, an error has ocurred while trying to get response."));
+			playgroundResponse.url = "...";
+			playgroundResponse.responseBody = "Sorry, an error has ocurred while trying to get response.";
+			
+			return ok(playground.render(playgroundResponse));
 		}		
 	}
 	

@@ -1,4 +1,4 @@
-@(requestedUrl: String)(response: String)
+@(playgroundRequest: controllers.response.PlaygroundResponse)
 
 <head>
 	<title>Playground</title>
@@ -145,7 +145,7 @@
 								</ul>
 												    	
 						    	<div id="request_html">
-						    		<pre class="span10">@requestedUrl</pre>
+						    		<pre class="span10">@playgroundRequest.url</pre>
 						    	</div>
 	 						    <div id="request_java">
 						    		<pre class="span10">Java request... TODO</pre>
@@ -159,7 +159,7 @@
 						    <div id="response" class="span12">
 						    	<legend>Response</legend>
 						    	<div id="response2">
-						    		<pre class="brush: xml">@Xml(response)</pre>
+						    		<pre class="brush: xml">@Xml(playgroundRequest.responseBody)</pre>
 						    	</div>
 						    </div>
 						</div>
