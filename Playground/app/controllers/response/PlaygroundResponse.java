@@ -1,7 +1,9 @@
 package controllers.response;
 
+import controllers.enums.Endpoint;
+
 public class PlaygroundResponse {
-	public String endpoint;
+	public Endpoint endpoint;
 	public String url;
 	public String responseBody;
 	

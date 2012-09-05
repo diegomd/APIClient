@@ -13,6 +13,7 @@ import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
 
+import controllers.enums.Endpoint;
 import controllers.response.PlaygroundResponse;
 import views.html.playground;
 
@@ -22,40 +23,71 @@ public class Playground extends Controller {
 	 * Endpoint methods
 	 ****************************/
 	public static Result index() {
-		APIRequest apiRequest = getForm(APIRequest.class);
-		PlaygroundResponse playgroundResponse = new PlaygroundResponse();
-		playgroundResponse.endpoint = apiRequest.endpoint;
+		APIRequest request = getForm(APIRequest.class);
 		
-		if (apiRequest.apikey == null) {
+		APIFilter apiFilter = getAPIFilter(request);
+		
+		PlaygroundResponse playgroundResponse = getPlaygroundResponse(request.apikey, request.endpoint, request.apiBaseUrl, request.timeout, apiFilter);
+		
+		return ok(playground.render(playgroundResponse));
+	}
+	
+	/****************************
+	 * Methods switch
+	 * @param timeout 
+	 * @param apiBaseUrl 
+	 ****************************/
+	private static PlaygroundResponse getPlaygroundResponse(String apikey, Endpoint endpoint, String apiBaseUrl, Integer timeout, APIFilter apiFilter) {
+		PlaygroundResponse playgroundResponse = new PlaygroundResponse();
+		playgroundResponse.endpoint = endpoint;
+		
+		// GET Request
+		if (apikey == null) {
 			playgroundResponse.url = "...";
 			playgroundResponse.responseBody = "...";
-			return ok(playground.render(playgroundResponse));
+			return playgroundResponse;
 		}
 		
-		APIFilter apiFilter = getAPIFilter(apiRequest);
-
-		LiquidAPIClient liquidAPIClient = new LiquidAPIClient(apiRequest.apikey);
-		HttpRequest httpRequest;
+		// Init API Client
+		String myApiBaseUrl = (apiBaseUrl != null && !apiBaseUrl.equals("")) ? apiBaseUrl : null;
+		LiquidAPIClient liquidAPIClient = null;
+		if(myApiBaseUrl != null && timeout != null) {
+			liquidAPIClient = new LiquidAPIClient(apikey, myApiBaseUrl, timeout);
+		} else {
+			liquidAPIClient = new LiquidAPIClient(apikey);
+		}
+		
+		HttpRequest httpRequest = null;
+		
+		// Choose method
 		try {
-			httpRequest = liquidAPIClient.getMediasRequest(apiFilter, true);
+			
+			switch(endpoint) {
+				case MEDIAS:
+					httpRequest = liquidAPIClient.getMediasRequest(apiFilter, true);
+					break;
+				case MEDIAS_COUNT:
+					httpRequest = liquidAPIClient.getMediasCountRequest(true);
+					break;
+			}
+			
+			if( endpoint.equals("/medias") ) {
+			}
+			
 			String responseBody = Utils.transformXML( httpRequest.getResponseBody() );
 			
 			playgroundResponse.url = httpRequest.getUrl();
 			playgroundResponse.responseBody = responseBody;
 			
-			return ok(playground.render(playgroundResponse));
-
 		} catch (RequestException e) {
 			playgroundResponse.url = e.getHttpRequest().getUrl();
 			playgroundResponse.responseBody = e.getHttpRequest().getResponseBody();
-			
-			return ok(playground.render(playgroundResponse));
 		} catch (ParserException e) {
 			playgroundResponse.url = "...";
 			playgroundResponse.responseBody = "Sorry, an error has ocurred while trying to get response.";
-			
-			return ok(playground.render(playgroundResponse));
-		}		
+		}
+		
+		return playgroundResponse;
 	}
 	
 	public static void main (String [] args) {
@@ -81,16 +113,19 @@ public class Playground extends Controller {
 	 * Request maps 
 	 ****************************/
 	public static class APIRequest{
-		public String endpoint;
+		public Endpoint endpoint;
 		public String apikey;
+		
+		public String apiBaseUrl;
+		public Integer timeout;
 		
 		public Integer first;
 		public Integer limit;
 		public String search;
 		public Boolean recursiveChannel;
 		public String filter;
-		public String orderBy;
-		public String sort;
+		public OrderBy orderBy;
+		public Sort sort;
 		
 		@Override
 		public String toString() {
@@ -138,12 +173,12 @@ public class Playground extends Controller {
 			apiFilter.setSearch(request.search);
 		
 		
-		if (request.orderBy != null && request.orderBy.length() > 0)
-			apiFilter.setOrderBy(OrderBy.valueOf(request.orderBy));
+		if (request.orderBy != null)
+			apiFilter.setOrderBy(request.orderBy);
 		
 		
-		if (request.sort != null && request.sort.length() > 0)
-			apiFilter.setSort(Sort.ASC);
+		if (request.sort != null)
+			apiFilter.setSort(request.sort);
 		
 		
 		return apiFilter;
