@@ -6,16 +6,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.sambatech.apiclient.exception.RequestException;
+
 public class HttpUtils {
 
 	private static final int BUFFER_SIZE = 1024*1024; //1mb
 	private static final int TIMEOUT = 60000; //1mb
 	
-	public static HttpResponse get(String url) {
+	public static HttpRequest get(String url) throws RequestException {
 		return get(url, TIMEOUT);
 	}
 	
-	public static HttpResponse get(String url, int timeout) {
+	public static HttpRequest get(String url, int timeout) throws RequestException {
 		URL urlObject = null;
 		HttpURLConnection conn = null;
 		
@@ -28,25 +30,25 @@ public class HttpUtils {
 			conn.setRequestProperty("Content-Type", "application/xml");
 			
 		} catch (MalformedURLException e) {
-			return null;
+			throw new RequestException(e, null);
 		} catch (IOException e) {
-			return null;
+			throw new RequestException(e, null);
 		}
 		
 		return execute(conn);
 	}
 	
-	private static HttpResponse execute(HttpURLConnection connection) {
-		HttpResponse httpResponse = new HttpResponse();
+	private static HttpRequest execute(HttpURLConnection connection) throws RequestException {
+		HttpRequest httpRequest = new HttpRequest();
 
 		InputStream is = null;
 		try {
 			connection.connect();
 		
-			httpResponse.setCode(connection.getResponseCode());
-			httpResponse.setMessage(connection.getResponseMessage());
-			httpResponse.setUrl(connection.getURL().toExternalForm());
-			httpResponse.setHeaders(connection.getHeaderFields());
+			httpRequest.setResponseCode(connection.getResponseCode());
+			httpRequest.setResponseMessage(connection.getResponseMessage());
+			httpRequest.setUrl(connection.getURL().toExternalForm());
+			httpRequest.setResponseHeaders(connection.getHeaderFields());
 			
 			is = connection.getInputStream();
 		
@@ -58,9 +60,9 @@ public class HttpUtils {
 			}
 			is.close();
 
-			httpResponse.setResponseBody(strbuf.toString());
+			httpRequest.setResponseBody(strbuf.toString());
 			
-			return httpResponse;
+			return httpRequest;
 			
 		} catch (IOException e) {
 			is = connection.getErrorStream();
@@ -77,9 +79,9 @@ public class HttpUtils {
 				e1.printStackTrace();
 			}
 			
-			httpResponse.setResponseBody(strbuf.toString());
+			httpRequest.setResponseBody(strbuf.toString());
 			
-			return httpResponse;
+			throw new RequestException(e, httpRequest);
 		}
 	}
 }

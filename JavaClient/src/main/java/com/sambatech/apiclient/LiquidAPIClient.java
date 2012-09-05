@@ -1,14 +1,19 @@
 package com.sambatech.apiclient;
 
+import com.sambatech.apiclient.exception.ParserException;
+import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.APIFilterParams;
-import com.sambatech.apiclient.http.HttpResponse;
+import com.sambatech.apiclient.http.HttpRequest;
 import com.sambatech.apiclient.http.HttpUtils;
-import com.sambatech.apiclient.response.Medias;
+import com.sambatech.apiclient.model.Medias;
+import com.sambatech.apiclient.model.SimpleResult;
+import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIClient {
 
-	private static final String MEDIAS_ENDPOINT = "/medias"; 
+	private static final String MEDIAS_ENDPOINT = "medias";
+	private static final String MEDIAS_COUNT_ENDPOINT = "medias/count";
 	
 	private String apiBaseUrl = "http://fast.api.liquidplatform.com/2.0";
 	private int timeout = 300;
@@ -30,7 +35,28 @@ public class LiquidAPIClient {
 	/****************************************************************************************************
 	 **** API Methods ***********************************************************************************
 	 ****************************************************************************************************/
-	public Medias getMedias(APIFilter apiFilter) {
+	
+	/**
+	 * /medias 
+	 */
+	public Medias getMedias(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = getMediasRequest(apiFilter, true);
+		
+		// Serialize object
+		Medias medias = JAXBParser.stringToObject(httpRequest.getResponseBody(), Medias.class);
+		
+		// Http Response info
+		medias.setHttpRequest(httpRequest);
+		
+		return medias;
+	}
+	
+	/**
+	 * Build Request to /media
+	 */
+	public HttpRequest getMediasRequest(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT);
 		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
 													APIFilterParams.LIMIT, 
 													APIFilterParams.SEARCH,
@@ -39,18 +65,63 @@ public class LiquidAPIClient {
 													APIFilterParams.ORDERBY,
 													APIFilterParams.SORT);
 		
-		String url = apiBaseUrl + "/" + MEDIAS_ENDPOINT + "?key="+ apiKey + parameters;
-		HttpResponse httpResponse = HttpUtils.get(url);
+		String url = baseUrl + parameters;
 		
-		Medias medias = new Medias();
-		medias.setHttpResponse(httpResponse);
+		if(makeRequest) {
+			return HttpUtils.get(url);
+		}
 		
-		return medias;
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;
+		
+	}
+	
+	/**
+	 * /medias/count 
+	 */
+	public int getMediasCount() throws RequestException, ParserException {
+		HttpRequest httpRequest = getMediasCountRequest(true);
+		
+		// Serialize object
+		SimpleResult result = JAXBParser.stringToObject(httpRequest.getResponseBody(), SimpleResult.class);
+		
+		if(result == null || result.getValue() == null) {
+			return 0;
+		}
+		
+		return Integer.valueOf(result.getValue());
+	}
+	
+	/**
+	 * Build request to /medias/count
+	 */
+	public HttpRequest getMediasCountRequest(boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(MEDIAS_COUNT_ENDPOINT);
+		
+		if(makeRequest) {
+			return HttpUtils.get(url);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;
 	}
 	
 	/****************************************************************************************************
-	 **** Build parameters ******************************************************************************
+	 **** Build functions *******************************************************************************
 	 ****************************************************************************************************/
+	private String buildBaseUrl(String ... paths) {
+		StringBuilder sb = new StringBuilder(apiBaseUrl);
+		
+		for(String path: paths) {
+			sb.append("/").append(path);
+		}
+		sb.append("?key=").append(apiKey);
+		
+		return sb.toString();
+	}
+	
 	private String getParameters(APIFilter apiFilter, APIFilterParams ... params) {
 		StringBuilder parameters = new StringBuilder();
 		

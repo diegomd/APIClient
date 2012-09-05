@@ -1,17 +1,19 @@
 package com.sambatech.apiclient.response;
 
-import com.sambatech.apiclient.http.HttpResponse;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.sambatech.apiclient.http.HttpRequest;
 
 public class BaseResponse {
 
-	private HttpResponse httpResponse;
+	private HttpRequest httpRequest;
 
-	public void setHttpResponse(HttpResponse httpResponse) {
-		this.httpResponse = httpResponse;
+	public void setHttpRequest(HttpRequest httpRequest) {
+		this.httpRequest = httpRequest;
 	}
 
-	public HttpResponse getHttpResponse() {
-		return httpResponse;
-	}
-	
+	@XmlTransient
+	public HttpRequest getHttpRequest() {
+		return httpRequest;
+	}	
 }
