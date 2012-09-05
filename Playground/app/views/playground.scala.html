@@ -55,7 +55,33 @@
 								
 								<li class="endpoint-li" id="li-endpoint-medias"><a id="endpoint-medias">/medias</a></li>
 								<li class="endpoint-li" id="li-endpoint-medias-count"><a id="endpoint-medias-count">/medias/count</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-ratings"><a id="endpoint-medias-ratings">/medias/ratings</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-views"><a id="endpoint-medias-views">/medias/views</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid"><a id="endpoint-medias-mediaid">/medias/{mediaId}</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-medias-urls-mediafileid"><a id="endpoint-medias-urls-mediafileid">/medias/urls/{mediaFileId}</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-views-mediafileid"><a id="endpoint-medias-views-mediafileid">/medias/views/{mediaFileId}</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid-rating"><a id="endpoint-medias-mediaid-rating">/medias/{mediaId}/rating</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid-related"><a id="endpoint-medias-mediaid-related">/medias/{mediaId}/related</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid-thumbs"><a id="endpoint-medias-mediaid-thumbs">/medias/{mediaId}/thumbs</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid-views"><a id="endpoint-medias-mediaid-views">/medias/{mediaId}/views</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-medias-urls-mediaid-outputname"><a id="endpoint-medias-urls-mediaid-outputname">/medias/urls/{mediaId}/{outputName}</a></li>
+								<li class="endpoint-li" id="li-endpoint-medias-mediaid-views-outputname"><a id="endpoint-medias-mediaid-views-outputname">/medias/{mediaId}/views/{outputName}</a></li>
+								
 								<li class="endpoint-li" id="li-endpoint-channels"><a id="endpoint-channels">/channels</a></li>
+								<li class="endpoint-li" id="li-endpoint-channels-count"><a id="endpoint-channels-count">/channels/count</a></li>
+								<li class="endpoint-li" id="li-endpoint-channels-channelid"><a id="endpoint-channels-channelid">/channels/{channelId}</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-outputs"><a id="endpoint-outputs">/outputs</a></li>
+								<li class="endpoint-li" id="li-endpoint-outputs-count"><a id="endpoint-outputs-count">/outputs/count</a></li>
+								
+								<li class="endpoint-li" id="li-endpoint-report-detail-traffic"><a id="endpoint-report-detail-traffic">/report/detail/traffic</a></li>
+								<li class="endpoint-li" id="li-endpoint-report-detail-medias"><a id="endpoint-report-detail-medias">/report/detail/medias</a></li>
+								<li class="endpoint-li" id="li-endpoint-report-detail-views"><a id="endpoint-report-detail-views">/report/detail/views</a></li>
+								<li class="endpoint-li" id="li-endpoint-report-detail-storage"><a id="endpoint-report-detail-storage">/report/detail/storage</a></li>
+								
 							</ul>
 					</div>
 		        </div>
@@ -137,7 +163,80 @@
 									</label>
 								</div>
 						  	</div>
+
+							<br />
+							
+ 							<div class="row-fluid">
+								<div id="mediaid-field" class="span3">
+									<label>Media ID</label>
+									<input type="text" name="mediaId" maxlength="64"  class="input-field span12">
+								</div>
+							</div>
+
+ 							<div class="row-fluid">
+								<div id="outputname-field" class="span3">
+									<label>Output Name</label>
+									<input type="text" name="outputName" maxlength="64"  class="input-field span12">
+								</div>
+							</div>
+							
+							<div class="row-fluid">
+								<div id="mediafileid-field" class="span3">
+									<label>MediaFile ID</label>
+									<input type="text" name="mediaFileId" maxlength="64"  class="input-field span12">
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div id="channelid-field" class="span3">
+									<label>Channel ID</label>
+									<input type="text" name="channelId" maxlength="64"  class="input-field span12">
+								</div>
+							</div>
+							
+							<div class="row-fluid">
+								<div id="sessionid-field" class="span3">
+									<label>Session ID</label>
+									<input type="text" name="sessionId" maxlength="64"  class="input-field span12">
+								</div>
+								
+								<div id="quarter-field" class="span3">
+									<label>quarter</label>
+									<input type="text" name="quarter" maxlength="3"  class="input-field span12">
+								</div>
+							</div>
+
+ 							<div class="row-fluid">
+								<div id="date-field" class="span3">
+									<label>Date (aaaammddhhmmss)</label>
+									<input type="text" name="date" maxlength="14"  class="input-field span12">
+								</div>
+							</div>
+							
+ 							<div class="row-fluid">
+								<div id="lastmodified-field" class="span3">
+									<label>Last Modified (aaaammddhhmmss)</label>
+									<input type="text" name="lastModified" maxlength="14"  class="input-field span12">
+								</div>
+							</div>
+							
+ 							<div class="row-fluid">
+								<div id="begin-field" class="span3">
+									<label>Begin (aaaammddhhmmss)</label>
+									<input type="text" name="begin" maxlength="14"  class="input-field span12">
+								</div>
+							</div>
+							
+ 							<div class="row-fluid">
+								<div id="end-field" class="span3">
+									<label>End (aaaammddhhmmss)</label>
+									<input type="text" name="end" maxlength="14"  class="input-field span12">
+								</div>
+							</div>							
+						  	
+						  	
 						  	<br />
+						  	
 						  	
 						  	<h5>
 						  		Advanced Options <i id="advanced-options-label" class="icon-download"></i>
@@ -154,7 +253,10 @@
 						  	</div>
 						  	
 						  	<br />
-						    <input type="button" class="btn btn-success" id="send" value="Send">
+						    <input type="button" class="btn btn-success" id="btn-get" value="Get">
+						    <input type="button" class="btn btn-warning" id="btn-put" value="Put">
+						    <input type="button" class="btn btn-danger" id="btn-delete" value="Delete">
+						    <input type="button" class="btn btn-primary" id="btn-post" value="Post">
 						</form>
 
 
