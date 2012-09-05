@@ -71,44 +71,60 @@
 						    
 						    <legend>Request Options</legend>
 						    
-   						    <div class="input-prepend">
-						    	<span class="add-on">first</span><input type="text" maxlength="16" class="span1">
-						    </div>
-
-   						    <div class="input-prepend">
-						    	<span class="add-on">limit</span><input type="text" name="limit" maxlength="16" class="span1">
-						    </div>
-
-   						    <div class="input-prepend">
-						    	<span class="add-on">search</span><input type="text" name="search" maxlength="64" class="span4">
-						    </div>
-
-   						    <div class="input-prepend">
-						    	<span class="add-on">recursiveChannel</span><input type="text" name="recursiveChannel" maxlength="5" class="span1">
-						    </div>
-
-   						    <div class="input-prepend">
-						    	<span class="add-on">filter</span><input type="text" name="filter" maxlength="64" class="span4">
-						    </div>
-
-   						    <div class="input-prepend">
-						    	<span class="add-on">orderBy</span><input type="text" name="orderBy" maxlength="32" class="span4">
-						    </div>
-
-							<div class="btn-group">
-								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-									Sort
-									<span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-										<a id="sort_asc">asc</a>
-									</li>
-									
-									<a id="sort_desc" href="#">desc</a>
-								</ul>
+							<div class="row-fluid">
+								<div id="search-field">
+									<label>Search</label>
+									<input type="text" name="search" maxlength="64" class="span8">
+								</div>
 							</div>
-						    <br/><br/>
+							
+							<div class="row-fluid">
+								<div id="first-field" class="span3">
+									<label>First</label>
+									<input type="text" name="first" maxlength="16"  class="span12">
+								</div>
+								
+								<div id="limit-field" class="span3">
+									<label>Limit</label>
+									<input type="text" name="limit" maxlength="16"  class="span12">
+								</div>
+							</div>
+						  
+							<div class="row-fluid">
+								<div id="filter-field" class="span8">
+									<label>Filter</label>
+									<input type="text" name="filter" maxlength="64" class="span12">
+								</div>
+							</div>
+
+						  	<div class="row-fluid">
+						  		<div id="orderby-field" class="span3">
+		   						    <label>OrderBy</label>
+								    <input type="text" name="orderBy" maxlength="32" class="span12">
+								</div>
+								<div id="sort-field" class="span3">
+		   						    <label>Sort</label>
+								    <select name="sort" class="span12">
+										<option>asc</option>
+										<option>desc</option>
+									</select>
+								</div>
+						  	</div>
+						  	
+						  	<div class="row-fluid">
+						  		<div id="recursivechannel-field" class="span8">
+		   						    <label>Recursive Channel</label>
+						  			<label class="radio inline">
+  										<input type="radio" name="recursiveChannel" value="false">
+										False
+									</label>
+						  			<label class="radio inline">
+  										<input type="radio" name="recursiveChannel" value="true">
+										True
+									</label>
+								</div>
+						  	</div>
+						  	<br />
 						    <input type="button" class="btn btn-success" id="send" value="Send">
 						</form>
 
