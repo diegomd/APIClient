@@ -130,36 +130,39 @@
 
 
 						<!-- Request -->
+
+						<div class="row-fluid">						
+						    <div name="request" id="request" class="span12">
+						    	<legend>Request</legend>
+														    	
+								<ul class="nav nav-tabs">
+								  <li id="request_html_li">
+								    <a href="#request" id="request_html_link">HTML</a>
+								  </li>
+								  <li id="request_java_li">
+								  	<a href="#request" id="request_java_link">Java</a>
+								  </li>
+								</ul>
+												    	
+						    	<div id="request_html">
+						    		<pre class="span10">@requestedUrl</pre>
+						    	</div>
+	 						    <div id="request_java">
+						    		<pre class="span10">Java request... TODO</pre>
+						    	</div>
+						    	
+						    </div>
+						</div>
 						
-					    <div name="request" id="request">
-					    	<legend>Request</legend>
-													    	
-							<ul class="nav nav-tabs">
-							  <li id="request_html_li">
-							    <a href="#request" id="request_html_link">HTML</a>
-							  </li>
-							  <li id="request_java_li">
-							  	<a href="#request" id="request_java_link">Java</a>
-							  </li>
-							</ul>
-											    	
-					    	<div id="request_html">
-					    		<pre class="span10">@requestedUrl</pre>
-					    	</div>
- 						    <div id="request_java">
-					    		<pre class="span10">Java request... TODO</pre>
-					    	</div>
-					    	
-					    </div>
-
-						<!-- Response -->
-
-					    <div id="response">
-					    	<legend>Response</legend>
-					    	<div id="response2">
-					    		<pre class="brush: xml">@Xml(response)</pre>
-					    	</div>
-					    </div>
+						<div class="row-fluid">
+							<!-- Response -->
+						    <div id="response" class="span12">
+						    	<legend>Response</legend>
+						    	<div id="response2">
+						    		<pre class="brush: xml">@Xml(response)</pre>
+						    	</div>
+						    </div>
+						</div>
 
 						
 					</div>
