@@ -1,4 +1,4 @@
-@(title: String)
+@(requestedUrl: String)(response: String)
 
 <head>
 	<title>Playground</title>
@@ -16,12 +16,16 @@
 	<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap-responsive.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/syntaxhighlighter/shCoreDefault.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 
 	<!-- SCRIPTs -->
 	<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/bootstrap/bootstrap.js")" type="text/javascript"></script>
-	
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shCore.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shBrushJava.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/syntaxhighlighter/shBrushXml.js")" type="text/javascript"></script>
+		
 </head>
 
 
@@ -53,39 +57,148 @@
 					</div>
 		        </div>
 				<div class="span10">
-						<div id="home">
+
+					<div id="home">
 						<h3>/medias</h3>
-						
-						<form>
+
+						<form id="form" method="post">
+							<input type="hidden" name="endpoint" class="span4" value="/medias">
 						    
 						    <div class="input-prepend">
-						    	<span class="add-on">APIKey</span><input type="text" maxlength="32" class="span4">
+						    	<span class="add-on">APIKey</span><input type="text" name="apikey" maxlength="32" class="span4">
 						    </div>
 						    
-						    <legend>Advanced Settings</legend>
 						    
-						    <label>API Base URL</label>
-						    <input type="text" class="span4">
+						    <legend>Request Options</legend>
 						    
-						    <label>Timeout</label>
-						    <input type="text" class="span4">
-						    
-						    <legend>Options</legend>
-						    <label>Search</label>
-						    <input type="text" class="span4">
-						    
-						    <label>limit</label>
-						    <input type="text" class="span4">
-						    
-						    <legend>Request</legend>
-						    <legend>Response</legend>
-						    
-						    <button type="submit" class="btn">Enviar</button>
+   						    <div class="input-prepend">
+						    	<span class="add-on">first</span><input type="text" maxlength="16" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">limit</span><input type="text" name="limit" maxlength="16" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">search</span><input type="text" name="search" maxlength="64" class="span4">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">recursiveChannel</span><input type="text" name="recursiveChannel" maxlength="5" class="span1">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">filter</span><input type="text" name="filter" maxlength="64" class="span4">
+						    </div>
+
+   						    <div class="input-prepend">
+						    	<span class="add-on">orderBy</span><input type="text" name="orderBy" maxlength="32" class="span4">
+						    </div>
+
+							<div class="btn-group">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+									Sort
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a id="sort_asc">asc</a>
+									</li>
+									
+									<a id="sort_desc" href="#">desc</a>
+								</ul>
+							</div>
+						    <br/><br/>
+						    <input type="button" class="btn btn-success" id="send" value="Send">
 						</form>
+
+
+						<!-- Request -->
+						
+					    <div name="request" id="request">
+					    	<legend>Request</legend>
+													    	
+							<ul class="nav nav-tabs">
+							  <li id="request_html_li">
+							    <a href="#request" id="request_html_link">HTML</a>
+							  </li>
+							  <li id="request_java_li">
+							  	<a href="#request" id="request_java_link">Java</a>
+							  </li>
+							</ul>
+											    	
+					    	<div id="request_html">
+					    		<pre class="span10">@requestedUrl</pre>
+					    	</div>
+ 						    <div id="request_java">
+					    		<pre class="span10">Java request... TODO</pre>
+					    	</div>
+					    	
+					    </div>
+
+						<!-- Response -->
+
+					    <div id="response">
+					    	<legend>Response</legend>
+					    	<div id="response2">
+					    		<pre class="brush: xml">@Xml(response)</pre>
+					    	</div>
+					    </div>
+
+						
 					</div>
 				</div>
+				<div class="span3">
+				</div>
+				
 			</div>
 	</div>
+
+
+<script language="javascript">
+	/*
+	$("#send").click(function() {
+		$("#form").submit();
+	});
+	*/
+
+	function showJavaRequest() {
+		$("#request_html").hide();
+		$("#request_java").show();
+
+		$("#request_java_li").addClass("active");
+		$("#request_html_li").removeClass("active");
+	}
+
+	function showHtmlRequest() {
+		$("#request_java").hide();
+		$("#request_html").show();
+		
+		$("#request_html_li").addClass("active");
+		$("#request_java_li").removeClass("active");
+	}
+	
+	
+	
+	$("#request_java_link").live('click', function(){
+		showJavaRequest();
+     });
+
+	$("#request_html_link").live('click', function(){
+		showHtmlRequest();
+     });
+
+	$("#send").live('click', function(){
+		$("#form").submit();
+     });
+    
+	
+	$(document).ready(function() {
+		showHtmlRequest();
+
+		SyntaxHighlighter.all();
+	});
+</script>
 
 </body>
 </html>
