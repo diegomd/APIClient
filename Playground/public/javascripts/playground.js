@@ -41,23 +41,23 @@ var configureEndPoint = function (endpointUri) {
 	
 	switch(endpointUri) {
 		
-		case "/medias":
+		case "MEDIAS":
 			$("#li-endpoint-medias").addClass("active");
 			showOnlyFields([ "search-field", "first-field", "limit-field", "filter-field", "orderby-field", "sort-field", "recursivechannel-field" ]);
 			break;
 
-		case "/medias/count":
+		case "MEDIAS_COUNT":
 			$("#li-endpoint-medias-count").addClass("active"); 
 			showOnlyFields([ "first-field" ]);
 			break;
 
-		case "/channels":
+		case "CHANNELS":
 			$("#li-endpoint-channels").addClass("active");
 			showOnlyFields([ "filter-field", "limit-field", "first-field"]);
 			break;				
 
 		default:
-			configureEndPoint("/medias");
+			configureEndPoint("MEDIAS");
 
 	}
 
@@ -90,14 +90,14 @@ $(document).ready(function() {
 	
 	/* Events */
 	$("#endpoint-medias").live('click', function(){
-		configureEndPoint("/medias");
+		configureEndPoint("MEDIAS");
     });
 	
 	$("#endpoint-medias-count").live('click', function(){
-		configureEndPoint("/medias/count");
+		configureEndPoint("MEDIAS_COUNT");
      });
 
 	$("#endpoint-channels").live('click', function(){
-		configureEndPoint("/channels");
+		configureEndPoint("CHANNELS");
      });
 });
