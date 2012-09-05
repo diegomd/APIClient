@@ -9,3 +9,12 @@ body {
 .endpoint-li {
 	cursor: pointer;
 }
+.required {
+	font-weight: bold;
+}
+
+.required:after {
+    font-weight: bold;
+    content: ' *';
+    color: #e32;
+}
