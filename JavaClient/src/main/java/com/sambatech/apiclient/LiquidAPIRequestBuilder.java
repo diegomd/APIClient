@@ -7,12 +7,15 @@ import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.APIFilterParams;
 import com.sambatech.apiclient.http.HttpRequest;
 import com.sambatech.apiclient.http.HttpUtils;
+import com.sambatech.apiclient.model.Channel;
 import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIRequestBuilder {
 
-	private static final String MEDIAS_ENDPOINT = "medias";
-	private static final String MEDIAS_COUNT_ENDPOINT = "medias/count";
+	private static final String MEDIAS_ENDPOINT 		= "medias";
+	private static final String MEDIAS_COUNT_ENDPOINT 	= "medias/count";
+	private static final String MEDIAS_URLS_ENDPOINT 	= "medias/urls";
+	private static final String CHANNELS_ENDPOINT 		= "channels";
 	
 	private String apiBaseUrl = "http://fast.api.liquidplatform.com/2.0";
 	private int timeout = 300;
@@ -126,6 +129,60 @@ public class LiquidAPIRequestBuilder {
 		
 		HttpRequest httpRequest = new HttpRequest();
 		httpRequest.setUrl(url);
+		return httpRequest;
+	}
+
+	
+	/**
+	 * Build Request to GET /medias/urls/{id}
+	 */
+	public HttpRequest getMediaIdUrls(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_URLS_ENDPOINT, apiFilter.getMediaId());
+		String parameters = getParameters(apiFilter);
+		String url = baseUrl + parameters;
+
+		if(makeRequest) {
+			return HttpUtils.get(url);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;	
+	}
+	
+	/**
+	 * Build Request to GET /channels
+	 */
+	public HttpRequest getChannels(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(CHANNELS_ENDPOINT);
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT,
+													APIFilterParams.FILTER);
+		String url = baseUrl + parameters;
+
+		if(makeRequest) {
+			return HttpUtils.get(url);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;	
+	}
+	
+	/**
+	 * Build Request to PUT /channels
+	 */
+	public HttpRequest addChannel(APIFilter apiFilter, Channel channel, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(CHANNELS_ENDPOINT);
+		String body = JAXBParser.objectToString(channel, Channel.class);
+		
+		if(makeRequest) {
+			return HttpUtils.post(url, body);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		httpRequest.setRequestBody(body);
 		return httpRequest;
 	}
 	

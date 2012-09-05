@@ -19,8 +19,6 @@ public class HttpUtils {
 	}
 	
 	public static HttpRequest get(String url, int timeout) throws RequestException {
-		System.out.println(url);
-		
 		URL urlObject = null;
 		HttpURLConnection conn = null;
 		
@@ -46,8 +44,6 @@ public class HttpUtils {
 	}
 	
 	public static HttpRequest put(String url, String body, int timeout) throws RequestException {
-		System.out.println(url);
-		
 		URL urlObject = null;
 		HttpURLConnection conn = null;
 		
@@ -80,7 +76,44 @@ public class HttpUtils {
 			throw e;
 		}
 	}
+
+	public static HttpRequest post(String url, String body) throws RequestException {
+		return post(url, body, TIMEOUT);
+	}
 	
+	public static HttpRequest post(String url, String body, int timeout) throws RequestException {
+		URL urlObject = null;
+		HttpURLConnection conn = null;
+		
+		try {
+			urlObject = new URL(url);
+
+			conn = (HttpURLConnection) urlObject.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setConnectTimeout(timeout);
+			conn.setRequestProperty("Content-Type", "application/xml");
+			conn.setDoOutput(true);
+			
+		    OutputStreamWriter wsr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+		    wsr.write(body);
+		    wsr.flush();
+			
+		} catch (MalformedURLException e) {
+			throw new RequestException(e, null);
+		} catch (IOException e) {
+			throw new RequestException(e, null);
+		}
+		
+		try {
+			HttpRequest httpRequest = execute(conn);
+			httpRequest.setRequestBody(body);
+			return httpRequest;
+			
+		} catch (RequestException e) {
+			e.getHttpRequest().setRequestBody(body);
+			throw e;
+		}
+	}
 	
 	private static HttpRequest execute(HttpURLConnection connection) throws RequestException {
 		HttpRequest httpRequest = new HttpRequest();

@@ -5,10 +5,14 @@ import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.http.HttpRequest;
+import com.sambatech.apiclient.model.Channel;
+import com.sambatech.apiclient.model.Channels;
 import com.sambatech.apiclient.model.Media;
 import com.sambatech.apiclient.model.Medias;
 import com.sambatech.apiclient.model.SimpleResult;
 import com.sambatech.apiclient.model.Status;
+import com.sambatech.apiclient.model.URL;
+import com.sambatech.apiclient.model.URLs;
 import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIClient {
@@ -103,5 +107,47 @@ public class LiquidAPIClient {
 		Status status = JAXBParser.stringToObject(httpRequest.getResponseBody(), Status.class);
 		
 		return status;
+	}
+	
+	
+	/**
+	 * GET /medias/urls/{id} 
+	 */
+	public URLs getMediaIdUrls(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdUrls(apiFilter, true);
+		
+		// Serialize object
+		URLs urls = JAXBParser.stringToObject(httpRequest.getResponseBody(), URLs.class);
+		
+		return urls;
+	}
+	
+	
+	/**
+	 * GET /channels 
+	 */
+	public Channels getChannels(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getChannels(apiFilter, true);
+		
+		// Serialize object
+		Channels channels = JAXBParser.stringToObject(httpRequest.getResponseBody(), Channels.class);
+		
+		return channels;
+	}
+	
+	/**
+	 * PUT /channels 
+	 * @param mediaUpdate 
+	 */
+	public Channel addChannel(APIFilter apiFilter, Channel channel) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.addChannel(apiFilter, channel, true);
+		
+		// Serialize object
+		Channel newChannel = JAXBParser.stringToObject(httpRequest.getResponseBody(), Channel.class);
+		
+		return newChannel;
 	}
 }
