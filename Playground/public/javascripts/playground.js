@@ -20,8 +20,25 @@ $("#request_java_link").live('click', showJavaRequest);
 $("#request_html_link").live('click', showHtmlRequest);
 
 $("#btn-get").live('click', function(){
+	$("#method").val("GET");
 	$("#form").submit();
 });
+
+$("#btn-put").live('click', function(){
+	$("#method").val("PUT");
+	$("#form").submit();
+});
+
+$("#btn-post").live('click', function(){
+	$("#method").val("POST");
+	$("#form").submit();
+});
+
+$("#btn-delete").live('click', function(){
+	$("#method").val("DELETE");
+	$("#form").submit();
+});
+
 
 function showElements(ArrayOfElementsId){
 	for(i=0;i<ArrayOfElementsId.length;i++){
@@ -264,7 +281,6 @@ $(document).ready(function() {
 	$("#endpoint-medias-mediaid-views-outputname").live('click', function(){
 		configureEndPoint("MEDIAS_MEDIAID_VIEWS_OUTPUTNAME");
      });		
-
 	
 	$("#endpoint-channels").live('click', function(){
 		configureEndPoint("CHANNELS");
