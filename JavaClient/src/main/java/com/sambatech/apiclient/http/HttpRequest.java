@@ -6,6 +6,7 @@ import java.util.Map;
 public class HttpRequest {
 
 	private String url;
+	private String requestBody;
 	
 	private int responseCode;
 	private String responseMessage;
@@ -42,5 +43,11 @@ public class HttpRequest {
 	}
 	public Map<String, List<String>> getResponseHeaders() {
 		return responseHeaders;
+	}
+	public void setRequestBody(String requestBody) {
+		this.requestBody = requestBody;
+	}
+	public String getRequestBody() {
+		return requestBody;
 	}
 }

@@ -2,6 +2,7 @@ package com.sambatech.apiclient.filter;
 
 public class APIFilter {
 	
+	private String mediaId;
 	private Integer first;
 	private Integer limit;
 	private String search;
@@ -51,5 +52,11 @@ public class APIFilter {
 	}
 	public void setSort(Sort sort) {
 		this.sort = sort;
+	}
+	public void setMediaId(String mediaId) {
+		this.mediaId = mediaId;
+	}
+	public String getMediaId() {
+		return mediaId;
 	}
 }
