@@ -17,6 +17,7 @@ import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
+import com.sambatech.apiclient.model.Channel;
 
 import controllers.enums.Endpoint;
 import controllers.enums.Method;
@@ -180,13 +181,16 @@ public class Playground extends Controller {
 			}
 			
 			String responseBody = Utils.transformXML( httpRequest.getResponseBody() );
+			String requestBody = Utils.transformXML( httpRequest.getRequestBody() );
 			
 			playgroundResponse.url = httpRequest.getUrl();
 			playgroundResponse.responseBody = responseBody;
+			playgroundResponse.requestBody = requestBody;
 			
 		} catch (RequestException e) {
 			playgroundResponse.url = e.getHttpRequest().getUrl();
 			playgroundResponse.responseBody = e.getHttpRequest().getResponseBody();
+			playgroundResponse.requestBody = e.getHttpRequest().getRequestBody();
 		} catch (ParserException e) {
 			playgroundResponse.url = "...";
 			playgroundResponse.responseBody = "Sorry, an error has ocurred while trying to get response.";

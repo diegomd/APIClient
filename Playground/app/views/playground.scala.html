@@ -343,11 +343,17 @@
 								  </li>
 								</ul>
 												    	
-						    	<div id="request_html">
-						    		<pre class="span10">@playgroundRequest.url</pre>
+						    	<div id="request_html" class="span10">
+						    			<h5>Request</h5>
+						    			<pre>@playgroundRequest.url</pre>
+						    			
+						    			@if(playgroundRequest.requestBody != null) {
+						    				<h5>Body</h5>
+						    				<pre>@playgroundRequest.requestBody</pre>
+						    			}
 						    	</div>
-	 						    <div id="request_java">
-						    		<pre class="span10">Java request... TODO</pre>
+	 						    <div id="request_java" class="span10">
+						    		<pre>Java request... TODO</pre>
 						    	</div>
 						    	
 						    </div>
@@ -355,6 +361,7 @@
 						
 						<div class="row-fluid">
 							<!-- Response -->
+							
 						    <div id="response" class="span12">
 						    	<legend>Response</legend>
 						    	<div id="response2">
