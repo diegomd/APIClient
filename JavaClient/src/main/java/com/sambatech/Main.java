@@ -22,13 +22,13 @@ DONE		/medias/urls/{mediaFileId}
 DONE		/medias/views/{mediaFileId}
 DONE		/medias/{mediaId}/rating
 DONE		/medias/{mediaId}/related
-DONE		/medias/{mediaId}/thumbs
+DONE	 	/medias/{mediaId}/thumbs
 DONE		/medias/{mediaId}/views
 DONE		/medias/urls/{mediaId}/{outputName}
 DONE		/medias/{mediaId}/views/{outputName}
 DONE		/channels
-			/channels/count
-			/channels/{channelId}
+DONE		/channels/count
+DONE		/channels/{channelId}
 			/outputs/count
 			/outputs
 			/report/detail/traffic
@@ -41,10 +41,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		APIFilter apiFilter = new APIFilter();
-//		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
-//		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
-//		apiFilter.setQuarter(25);
-//		apiFilter.setOutputName("_RAW");
 		apiFilter.setChannelId("4");
 		
 		try {
