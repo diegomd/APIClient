@@ -154,8 +154,8 @@ public class Playground extends Controller {
 		public Boolean postHighlighted;
 		public String postSecondURL;
 		public String postTags;
-		public Calendar postPublishDate;
-		public Calendar postUnPublishDate;
+		public String postPublishDate;
+		public String postUnPublishDate;
 		
 		@Override
 		public String toString() {
