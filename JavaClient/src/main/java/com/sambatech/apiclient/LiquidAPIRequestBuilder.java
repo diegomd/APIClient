@@ -213,12 +213,25 @@ public class LiquidAPIRequestBuilder {
 	}
 	
 	/**
-	 * Build Request to GET /medias/{id}/views
+	 * Build Request to GET /medias/urls/{mediaId}/{outputName}
 	 */
 	public HttpRequest getMediaIdOutputUrls(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
 		String url = buildBaseUrl(MEDIAS_ENDPOINT, URLS_ENDPOINT, apiFilter.getMediaId(), apiFilter.getOutputName());
 
 		return doGet(url, makeRequest);	
+	}
+	
+	
+	/**
+	 * Build Request to POST /medias/{mediaId}/views/{outputName}
+	 */
+	public HttpRequest addMediaIdOutputViews(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), VIEWS_ENDPOINT, apiFilter.getOutputName());
+		String parameters = getParameters(apiFilter, APIFilterParams.QUARTER);
+		String url = baseUrl + parameters;
+
+		List<Cookie> cookies = getCookies(apiFilter);
+		return doPost(url, "", cookies, makeRequest);	
 	}
 	
 	

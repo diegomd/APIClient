@@ -23,7 +23,7 @@ DONE		/medias/{mediaId}/related
 DONE		/medias/{mediaId}/thumbs
 DONE		/medias/{mediaId}/views
 DONE		/medias/urls/{mediaId}/{outputName}
-			/medias/{mediaId}/views/{outputName}
+DONE		/medias/{mediaId}/views/{outputName}
 DONE		/channels
 			/channels/count
 			/channels/{channelId}
@@ -39,18 +39,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		APIFilter apiFilter = new APIFilter();
-		apiFilter.setMediaId("beb40936fef7d124adb16f77aa2cc276");
+		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
+		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
+		apiFilter.setQuarter(25);
 		apiFilter.setOutputName("_RAW");
 		
 		try {
 			// EAD
-			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("3c7de826b1e566a1f2a282a1e7088495");
+			//LiquidAPIClient liquidAPIClient = new LiquidAPIClient("3c7de826b1e566a1f2a282a1e7088495");
 			// Startup
 			//LiquidAPIClient liquidAPIClient = new LiquidAPIClient("7725de9b61038815f8cd3f16d3367cef");
 			// Relatorio GA
-			//LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
+			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
-			liquidAPIClient.getMediaIdOutputUrls(apiFilter);
+			liquidAPIClient.addMediaIdOutputViews(apiFilter);
 			
 			
 		} catch (RequestException e) {

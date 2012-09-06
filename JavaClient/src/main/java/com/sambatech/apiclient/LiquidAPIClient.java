@@ -229,7 +229,7 @@ public class LiquidAPIClient {
 	
 	
 	/**
-	 * Build Request to GET /medias/{id}/views
+	 * Build Request to GET /medias/urls/{mediaId}/{outputName}
 	 */
 	public URLs getMediaIdOutputUrls(APIFilter apiFilter) throws RequestException, ParserException {
 		HttpRequest httpRequest = requestBuilder.getMediaIdOutputUrls(apiFilter, true);
@@ -238,6 +238,24 @@ public class LiquidAPIClient {
 		URLs urls = JAXBParser.stringToObject(httpRequest.getResponseBody(), URLs.class);
 		
 		return urls;
+	}
+	
+	/**
+	 * POST /medias/{mediaId}/views/{outputName} 
+	 */
+	public Status addMediaIdOutputViews(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.addMediaIdOutputViews(apiFilter, true);
+		
+		System.out.println(httpRequest.getUrl());
+		System.out.println(httpRequest.getResponseBody());
+		
+		Status status = JAXBParser.stringToObject(httpRequest.getResponseBody(), Status.class);
+		
+		System.out.println(status.getResult());
+		System.out.println(status.getCode());
+		
+		return status;
 	}
 	
 	
