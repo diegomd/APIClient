@@ -17,6 +17,8 @@ import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
+import com.sambatech.apiclient.model.Channel;
+import com.sambatech.apiclient.model.Thumbnail;
 
 import controllers.enums.Endpoint;
 import controllers.enums.Method;
@@ -146,11 +148,12 @@ public class Playground extends Controller {
 					break;
 					
 				case CHANNELS_COUNT:
-					//httpRequest = requestBuilder.get...TODO;
+					httpRequest = requestBuilder.getChannelsCount(true);
 					break;
 				
 				case CHANNELS_CHANNELID:
-					//httpRequest = requestBuilder.get...TODO;
+					Channel channel = getChannel(request);
+					httpRequest = requestBuilder.updateChannelId(apiFilter, channel, true);
 					break;
 				
 				case OUTPUTS:
@@ -235,6 +238,13 @@ public class Playground extends Controller {
 		public String postTags;
 		public String postPublishDate;
 		public String postUnPublishDate;
+		
+		//Channel
+	    public String channelName;
+	    public String channelDescription;
+	    public Long channelParent;    
+	    public Boolean channelRestricted;
+	    public Boolean channelHidden;
 		
 		@Override
 		public String toString() {
@@ -329,4 +339,21 @@ public class Playground extends Controller {
 		return mediaUpdate;
 	}
 
+	private static Channel getChannel(APIRequest request) {
+		Channel channel = new Channel();
+
+		if (request.channelName != null && request.channelName.length() > 0)
+			channel.setName(request.channelName);
+
+		if (request.channelDescription != null && request.channelDescription.length() > 0)
+			channel.setDescription(request.channelDescription);		
+		
+		channel.setParent(request.channelParent);
+		channel.setParent(request.channelParent);
+		channel.setRestricted(request.channelRestricted);
+		channel.setHidden(request.channelHidden);
+		
+		return channel;
+	}
+	
 }
