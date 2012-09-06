@@ -183,6 +183,24 @@ public class LiquidAPIClient {
 	}
 	
 	/**
+	 * GET /medias/{id}/related 
+	 */
+	public Medias getMediaIdRelated(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdRelated(apiFilter, true);
+		
+		// Serialize object
+		Medias medias = JAXBParser.stringToObject(httpRequest.getResponseBody(), Medias.class);
+		
+		// Http Response info
+		medias.setHttpRequest(httpRequest);
+		
+		return medias;
+		
+	}
+	
+	
+	/**
 	 * GET /medias/{id}/thumbs
 	 */
 	public Thumbnails getMediaIdThumbs(APIFilter apiFilter) throws RequestException, ParserException {

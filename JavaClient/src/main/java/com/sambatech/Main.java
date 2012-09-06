@@ -19,7 +19,7 @@ DONE		/medias/{mediaId}				DELETE
 DONE		/medias/urls/{mediaFileId}
 DONE		/medias/views/{mediaFileId}
 DONE		/medias/{mediaId}/rating
-			/medias/{mediaId}/related
+DONE		/medias/{mediaId}/related
 DONE		/medias/{mediaId}/thumbs
 DONE		/medias/{mediaId}/views
 			/medias/urls/{mediaId}/{outputName}
@@ -40,8 +40,6 @@ public class Main {
 	public static void main(String[] args) {
 		APIFilter apiFilter = new APIFilter();
 		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
-		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
-		apiFilter.setQuarter(25);
 		
 		try {
 			// EAD
@@ -51,7 +49,7 @@ public class Main {
 			// Relatorio GA
 			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
-			liquidAPIClient.addMediaIdViews(apiFilter);
+			liquidAPIClient.getMediaIdRelated(apiFilter);
 			
 			
 		} catch (RequestException e) {

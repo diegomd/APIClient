@@ -23,7 +23,8 @@ public class LiquidAPIRequestBuilder {
 	private static final String RATING_ENDPOINT 	= "rating";
 	private static final String VIEWS_ENDPOINT 		= "views";
 	private static final String URLS_ENDPOINT 		= "urls";
-	private static final String THUMBS_ENDPOINT 		= "thumbs";
+	private static final String THUMBS_ENDPOINT 	= "thumbs";
+	private static final String RELATED_ENDPOINT 	= "related";
 	private static final String CHANNELS_ENDPOINT	= "channels";
 	
 	private String apiBaseUrl = "http://fast.api.liquidplatform.com/2.0";
@@ -172,6 +173,22 @@ public class LiquidAPIRequestBuilder {
 
 		return doGet(url, makeRequest);	
 	}
+	
+	
+	/**
+	 * Build Request to GET /medias/{id}/related
+	 */
+	public HttpRequest getMediaIdRelated(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), RELATED_ENDPOINT);
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT,
+													APIFilterParams.FILTER);
+		
+		String url = baseUrl + parameters;
+		
+		return doGet(url, makeRequest);	
+	}
+	
 
 	/**
 	 * Build Request to GET /medias/{id}/thumbs
