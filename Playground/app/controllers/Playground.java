@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Calendar;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,8 +15,10 @@ import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
+import com.sambatech.apiclient.body.MediaUpdate;
 
 import controllers.enums.Endpoint;
+import controllers.enums.Method;
 import controllers.response.PlaygroundResponse;
 
 public class Playground extends Controller {
@@ -27,7 +31,7 @@ public class Playground extends Controller {
 		
 		APIFilter apiFilter = getAPIFilter(request);
 		
-		PlaygroundResponse playgroundResponse = getPlaygroundResponse(request.apikey, request.endpoint, request.apiBaseUrl, request.timeout, apiFilter);
+		PlaygroundResponse playgroundResponse = getPlaygroundResponse(request, apiFilter);
 		
 		return ok(playground.render(playgroundResponse));
 	}
@@ -37,24 +41,24 @@ public class Playground extends Controller {
 	 * @param timeout 
 	 * @param apiBaseUrl 
 	 ****************************/
-	private static PlaygroundResponse getPlaygroundResponse(String apikey, Endpoint endpoint, String apiBaseUrl, Integer timeout, APIFilter apiFilter) {
+	private static PlaygroundResponse getPlaygroundResponse(APIRequest request, APIFilter apiFilter) {
 		PlaygroundResponse playgroundResponse = new PlaygroundResponse();
-		playgroundResponse.endpoint = endpoint;
+		playgroundResponse.endpoint = request.endpoint;
 		
 		// GET Request
-		if (apikey == null) {
+		if (request.apikey == null) {
 			playgroundResponse.url = "...";
 			playgroundResponse.responseBody = "...";
 			return playgroundResponse;
 		}
 		
 		// Init API Client
-		String myApiBaseUrl = (apiBaseUrl != null && !apiBaseUrl.equals("")) ? apiBaseUrl : null;
+		String myApiBaseUrl = (request.apiBaseUrl != null && !request.apiBaseUrl.equals("")) ? request.apiBaseUrl : null;
 		LiquidAPIRequestBuilder requestBuilder = null;
-		if(myApiBaseUrl != null && timeout != null) {
-			requestBuilder = new LiquidAPIRequestBuilder(apikey, myApiBaseUrl, timeout);
+		if(myApiBaseUrl != null && request.timeout != null) {
+			requestBuilder = new LiquidAPIRequestBuilder(request.apikey, myApiBaseUrl, request.timeout);
 		} else {
-			requestBuilder = new LiquidAPIRequestBuilder(apikey);
+			requestBuilder = new LiquidAPIRequestBuilder(request.apikey);
 		}
 		
 		HttpRequest httpRequest = null;
@@ -62,7 +66,7 @@ public class Playground extends Controller {
 		// Choose method
 		try {
 			
-			switch(endpoint) {
+			switch(request.endpoint) {
 				case MEDIAS:
 					httpRequest = requestBuilder.getMedias(apiFilter, true);
 					break;
@@ -76,7 +80,18 @@ public class Playground extends Controller {
 					httpRequest = requestBuilder.getMediasViews(apiFilter, true);
 					break;
 				case MEDIAS_MEDIAID:
-					httpRequest = requestBuilder.getMediaId(apiFilter, true);
+					switch(request.method) {
+						case PUT:
+							MediaUpdate mediaUpdate = getMediaUpdate(request);
+							httpRequest = requestBuilder.updateMediaId(apiFilter, mediaUpdate, true);
+							break;
+						case DELETE:
+							httpRequest = requestBuilder.deleteMediaId(apiFilter, true);
+							break;
+						default:	
+							httpRequest = requestBuilder.getMediaId(apiFilter, true);
+							break;
+					}
 					break;
 				case MEDIAS_URLS_MEDIAFILEID:
 					httpRequest = requestBuilder.getMediaIdUrls(apiFilter, true);
@@ -115,6 +130,7 @@ public class Playground extends Controller {
 	public static class APIRequest{
 		public Endpoint endpoint;
 		public String apikey;
+		public Method method;
 		
 		public String apiBaseUrl;
 		public Integer timeout;
@@ -128,6 +144,18 @@ public class Playground extends Controller {
 		public Sort sort;
 		public String mediaId;
 		public String mediaFileId;
+		
+		//MediaUpdate
+		public String postTitle;
+		public Integer postChannelId;
+		public String postDescription;
+		public String postShortDescription;
+		public Boolean postRestrict;
+		public Boolean postHighlighted;
+		public String postSecondURL;
+		public String postTags;
+		public Calendar postPublishDate;
+		public Calendar postUnPublishDate;
 		
 		@Override
 		public String toString() {
@@ -188,6 +216,18 @@ public class Playground extends Controller {
 			apiFilter.setMediaId(request.mediaFileId);
 		
 		return apiFilter;
+	}
+	
+	private static MediaUpdate getMediaUpdate(APIRequest request) {
+		MediaUpdate mediaUpdate = new MediaUpdate();
+		
+		if (request.postTitle != null && request.postTitle.length() > 0)
+			mediaUpdate.setTitle(request.postTitle);
+		
+		if (request.postChannelId != null)
+			mediaUpdate.setChannelId(request.postChannelId);
+		
+		return mediaUpdate;
 	}
 
 }

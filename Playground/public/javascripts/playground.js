@@ -104,6 +104,18 @@ var showOnlyFields = function (fieldArray) {
 	showElements(fieldArray);
 }
 
+var showOnlyPostFields = function(postField) {
+	$('.postOption').hide();
+	
+	if(postField == undefined) {
+		$('#postOptionLegend').hide();
+		return;
+	}
+	
+	$('#postOptionLegend').show();
+	$('#'+postField).show();	
+}
+
 var defineRequiredFields = function (fieldArray) {
 	$("[id$='field']").find("label").removeClass("required");
 	setDivLabelAsRequired(fieldArray);	
@@ -123,6 +135,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias").addClass("active");
 			showOnlyFields([ "search-field", "first-field", "limit-field", "filter-field", "orderby-field", "sort-field", "recursivechannel-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [];
 			break;
 
@@ -130,6 +143,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-count").addClass("active"); 
 			showOnlyFields([]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [];
 			break;
 
@@ -137,6 +151,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-ratings").addClass("active"); 
 			showOnlyFields([ "first-field", "limit-field", "lastmodified-field", "filter-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [];
 			break;			
 			
@@ -144,6 +159,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-views").addClass("active"); 
 			showOnlyFields([ "first-field", "limit-field", "lastmodified-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [];
 			break;
 			
@@ -151,6 +167,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid").addClass("active"); 
 			showOnlyFields([ "filter-field", "mediaid-field"]);
 			showOnlyButtons([ "btn-get", "btn-put", "btn-delete" ]);
+			showOnlyPostFields("mediaUpdateOptions");
 			requiredFields = [ "mediaid-field" ];
 			break;
 
@@ -158,6 +175,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-urls-mediafileid").addClass("active");
 			showOnlyFields([ "mediafileid-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			defineRequiredFields([ "mediafileid-field" ]);
 			requiredFields = [ "mediafileid-field" ];
 			break;
@@ -166,6 +184,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-views-mediafileid").addClass("active");
 			showOnlyFields([ "mediafileid-field", "sessionid-field", "quarter-field" ]);
 			showOnlyButtons([ "btn-post"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediafileid-field", "sessionid-field" ];
 			break;
 			
@@ -173,6 +192,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid-rating").addClass("active");
 			showOnlyFields([ "mediaid-field", "filter-field"]);
 			showOnlyButtons([ "btn-get", "btn-post" ]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field" ];
 			break;
 
@@ -180,6 +200,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid-related").addClass("active");
 			showOnlyFields([ "mediaid-field", "first-field", "limit-field", "filter-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field" ];
 			break;
 			
@@ -187,6 +208,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid-thumbs").addClass("active");
 			showOnlyFields([ "mediaid-field", "filter-field" ]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field" ];
 			break;
 
@@ -194,6 +216,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid-views").addClass("active");
 			showOnlyFields([ "mediaid-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field" ];
 			break;
 
@@ -201,6 +224,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-urls-mediaid-outputname").addClass("active");
 			showOnlyFields([ "mediaid-field", "outputname-field" ]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field", "outputname-field" ];
 			break;
 
@@ -208,6 +232,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-medias-mediaid-views-outputname").addClass("active");
 			showOnlyFields([ "mediaid-field", "outputname-field", "sessionid-field", "quarter-field" ]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ "mediaid-field", "outputname-field", "sessionid-field" ];
 			break;	
 			
@@ -215,6 +240,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-channels").addClass("active");
 			showOnlyFields([ "filter-field", "limit-field", "first-field"]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 			
@@ -222,6 +248,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-channels-count").addClass("active");
 			showOnlyFields([ ]);
 			showOnlyButtons([ "btn-get"]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;			
 			
@@ -229,6 +256,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-channels-channelid").addClass("active");
 			showOnlyFields([ "filter-field", "channelid-field"]);
 			showOnlyButtons([ "btn-get", "btn-put" ]);
+			showOnlyPostFields();
 			requiredFields = [ "channelid-field" ];
 			break;
 
@@ -236,6 +264,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-outputs").addClass("active");
 			showOnlyFields([ ]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 
@@ -243,6 +272,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-outputs-count").addClass("active");
 			showOnlyFields([ ]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 
@@ -250,6 +280,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-report-detail-traffic").addClass("active");
 			showOnlyFields([ "begin-field", "end-field" ]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 
@@ -257,6 +288,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-report-detail-medias").addClass("active");
 			showOnlyFields([ "date-field"]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 
@@ -264,6 +296,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-report-detail-views").addClass("active");
 			showOnlyFields([ "begin-field", "end-field" ]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;
 
@@ -271,6 +304,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-report-detail-storage").addClass("active");
 			showOnlyFields([ "date-field" ]);
 			showOnlyButtons([ "btn-get" ]);
+			showOnlyPostFields();
 			requiredFields = [ ];
 			break;			
 			

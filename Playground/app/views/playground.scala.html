@@ -98,6 +98,19 @@
 						    	<span class="add-on required">APIKey</span><input type="text" id="apikey" name="apikey" maxlength="32" class="span4" value="@playgroundRequest.apikey">
 						    </div>
 						    
+						    <h5>
+						  		Advanced Options <i id="advanced-options-label" class="icon-download"></i>
+						  	</h5>
+						  	<div id="advanced-options" class="row-fluid" style="display: none;">
+						  		<div id="apiBaseUrl-div" class="span6">
+		   						    <label>API Base URL</label>
+						  			<input type="text" name="apiBaseUrl" maxlength="64" class="span12">
+								</div>
+								<div id="timeout-div" class="span2">
+		   						    <label>Timeout</label>
+						  			<input type="text" name="timeout" maxlength="16" class="span12">
+								</div>
+						  	</div>
 						    
 						    <legend>Request Options</legend>
 						    
@@ -232,20 +245,80 @@
 									<input type="text" name="end" maxlength="14"  class="input-field span12">
 								</div>
 							</div>							
-						  	
-						  	<h5>
-						  		Advanced Options <i id="advanced-options-label" class="icon-download"></i>
-						  	</h5>
-						  	<div id="advanced-options" class="row-fluid" style="display: none;">
-						  		<div id="apiBaseUrl-div" class="span6">
-		   						    <label>API Base URL</label>
-						  			<input type="text" name="apiBaseUrl" maxlength="64" class="span12">
+						  							  	
+						  	<legend id="postOptionLegend">Post Options</legend>
+						    
+						    <div id="mediaUpdateOptions" class="postOption">
+								<div class="row-fluid">
+									<div id="postTitle">
+										<label>Title</label>
+										<input type="text" name="postTitle" maxlength="64" class="input-field span8">
+									</div>
+									<div id="postDescription">
+										<label>Description</label>
+										<input type="text" name="postDescription" maxlength="64" class="input-field span8">
+									</div>
 								</div>
-								<div id="timeout-div" class="span2">
-		   						    <label>Timeout</label>
-						  			<input type="text" name="timeout" maxlength="16" class="span12">
+								<div class="row-fluid">
+									<div id="postShortDescription" class="span6">
+										<label>Short Description</label>
+										<input type="text" name="postShortDescription" maxlength="16"  class="span12">
+									</div>
+									
+									<div id="postChannelId" class="span2">
+										<label>Channel ID</label>
+										<input type="text" name="postChannelId" maxlength="16"  class="span12">
+									</div>
 								</div>
+								
+							  	<div class="row-fluid">
+									<div id="postSecondURL" class="span4">
+										<label>SecondURL</label>
+										<input type="text" name="postSecondURL" maxlength="64" class="span12">
+									</div>
+									<div id="postTags" class="span4">
+										<label>Tags</label>
+										<input type="text" name="postTags" maxlength="64" class="span12">
+									</div>
+								</div>
+								
+								<div class="row-fluid">
+									<div id="postPublishDate" class="span4">
+										<label>Publish Date (aaaammddhhmmss)</label>
+										<input type="text" name="postPublishDate" maxlength="14"  class="span12">
+									</div>
+									<div id="postUnPublishDate" class="span4">
+										<label>Unpublish Date (aaaammddhhmmss)</label>
+										<input type="text" name="postUnPublishDate" maxlength="14"  class="span12">
+									</div>
+								</div>
+								
+								<div class="row-fluid">
+							  		<div id="postRestrict" class="span2">
+			   						    <label>Restrict</label>
+							  			<label class="radio inline">
+	  										<input type="radio" name="postRestrict" value="false">
+											False
+										</label>
+							  			<label class="radio inline">
+	  										<input type="radio" name="postRestrict" value="true">
+											True
+										</label>
+									</div>
+									<div id="postHighlighted" class="span2">
+			   						    <label>Highlighted</label>
+							  			<label class="radio inline">
+	  										<input type="radio" name="postHighlighted" value="false">
+											False
+										</label>
+							  			<label class="radio inline">
+	  										<input type="radio" name="postHighlighted" value="true">
+											True
+										</label>
+									</div>
+							  	</div>
 						  	</div>
+							
 						  	
 						  	<br />
 						    <input type="button" class="btn btn-success" id="btn-get" value="Get">
@@ -263,7 +336,7 @@
 														    	
 								<ul class="nav nav-tabs">
 								  <li id="request_html_li">
-								    <a href="#request" id="request_html_link">HTML</a>
+								    <a href="#request" id="request_html_link">URL</a>
 								  </li>
 								  <li id="request_java_li">
 								  	<a href="#request" id="request_java_link">Java</a>
