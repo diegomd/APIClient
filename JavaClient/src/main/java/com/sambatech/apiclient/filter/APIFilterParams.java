@@ -7,7 +7,8 @@ public enum APIFilterParams {
 	RECURSIVE_CHANNEL("recursiveChannel"),
 	FILTER("filter"),
 	ORDERBY("orderBy"),
-	SORT("sort")
+	SORT("sort"),
+	LAST_MODIFIED("lastModified")
 	;
 	
 	private final String value;

@@ -1,5 +1,7 @@
 package com.sambatech.apiclient.filter;
 
+import java.util.Calendar;
+
 public class APIFilter {
 	
 	private String mediaId;
@@ -10,6 +12,7 @@ public class APIFilter {
 	private String filter;
 	private OrderBy orderBy;
 	private Sort sort;
+	private Calendar lastModified;
 	
 	public Integer getFirst() {
 		return first;
@@ -58,5 +61,11 @@ public class APIFilter {
 	}
 	public String getMediaId() {
 		return mediaId;
+	}
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
+	}
+	public Calendar getLastModified() {
+		return lastModified;
 	}
 }

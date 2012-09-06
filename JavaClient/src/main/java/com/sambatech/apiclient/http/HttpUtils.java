@@ -132,10 +132,10 @@ public class HttpUtils {
 			StringBuffer strbuf = new StringBuffer();
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int n = 0;
-			while (-1 != (n = is.read(buffer))) {
+			while (is != null && -1 != (n = is.read(buffer))) {
 				strbuf.append(new String(buffer, 0, n));
 			}
-			is.close();
+			if(is != null) is.close();
 
 			httpRequest.setResponseBody(strbuf.toString());
 			
@@ -148,10 +148,10 @@ public class HttpUtils {
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int n = 0;
 			try {
-				while (-1 != (n = is.read(buffer))) {
+				while (is != null && -1 != (n = is.read(buffer))) {
 					strbuf.append(new String(buffer, 0, n));
 				}
-				is.close();
+				if(is != null) is.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -167,8 +167,6 @@ public class HttpUtils {
 	}
 	
 	public static HttpRequest delete(String url, int timeout) throws RequestException {
-		System.out.println(url);
-		
 		URL urlObject = null;
 		HttpURLConnection conn = null;
 		

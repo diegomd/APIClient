@@ -12,10 +12,14 @@ import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIRequestBuilder {
 
-	private static final String MEDIAS_ENDPOINT 		= "medias";
-	private static final String MEDIAS_COUNT_ENDPOINT 	= "medias/count";
-	private static final String MEDIAS_URLS_ENDPOINT 	= "medias/urls";
-	private static final String CHANNELS_ENDPOINT 		= "channels";
+	private static final String MEDIAS_ENDPOINT 	= "medias";
+	private static final String COUNT_ENDPOINT 		= "count";
+	private static final String RATINGS_ENDPOINT 	= "ratings";
+	private static final String RATING_ENDPOINT 	= "rating";
+	private static final String VIEWS_ENDPOINT 		= "views";
+	private static final String URLS_ENDPOINT 		= "urls";
+	private static final String THUMBS_ENDPOINT 		= "thumbs";
+	private static final String CHANNELS_ENDPOINT	= "channels";
 	
 	private String apiBaseUrl = "http://fast.api.liquidplatform.com/2.0";
 	private int timeout = 300;
@@ -52,30 +56,49 @@ public class LiquidAPIRequestBuilder {
 													APIFilterParams.SORT);
 		
 		String url = baseUrl + parameters;
-		
-		if(makeRequest) {
-			return HttpUtils.get(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;
+	
+		return doGet(url, makeRequest);
 	}
 	
 	/**
 	 * Build request to GET /medias/count
 	 */
 	public HttpRequest getMediasCount(boolean makeRequest) throws RequestException, ParserException {
-		String url = buildBaseUrl(MEDIAS_COUNT_ENDPOINT);
+		String url = buildBaseUrl(MEDIAS_ENDPOINT, COUNT_ENDPOINT);
 		
-		if(makeRequest) {
-			return HttpUtils.get(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;
+		return doGet(url, makeRequest);
 	}
+	
+	/**
+	 * Build Request to GET /medias/ratings
+	 */
+	public HttpRequest getMediasRatings(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, RATINGS_ENDPOINT);
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT,
+													APIFilterParams.LAST_MODIFIED,
+													APIFilterParams.FILTER);
+		
+		String url = baseUrl + parameters;
+		
+		return doGet(url, makeRequest);
+	}
+	
+	
+	/**
+	 * Build Request to GET /medias/views
+	 */
+	public HttpRequest getMediasViews(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, VIEWS_ENDPOINT);
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT,
+													APIFilterParams.LAST_MODIFIED);
+		
+		String url = baseUrl + parameters;
+		
+		return doGet(url, makeRequest);
+	}
+	
 	
 	/**
 	 * Build Request to GET /medias/{id}
@@ -85,13 +108,7 @@ public class LiquidAPIRequestBuilder {
 		String parameters = getParameters(apiFilter,APIFilterParams.FILTER);
 		String url = baseUrl + parameters;
 
-		if(makeRequest) {
-			return HttpUtils.get(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;	
+		return doGet(url, makeRequest);	
 	}
 	
 	/**
@@ -104,14 +121,7 @@ public class LiquidAPIRequestBuilder {
 
 		String body = JAXBParser.objectToString(mediaUpdate, MediaUpdate.class);
 		
-		if(makeRequest) {
-			return HttpUtils.put(url, body);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		httpRequest.setRequestBody(body);
-		return httpRequest;
+		return doPut(url, body, makeRequest);
 	}
 	
 	/**
@@ -123,13 +133,7 @@ public class LiquidAPIRequestBuilder {
 		String url = baseUrl + parameters;
 
 		
-		if(makeRequest) {
-			return HttpUtils.delete(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;
+		return doDelete(url, makeRequest);
 	}
 
 	
@@ -137,18 +141,43 @@ public class LiquidAPIRequestBuilder {
 	 * Build Request to GET /medias/urls/{id}
 	 */
 	public HttpRequest getMediaIdUrls(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
-		String baseUrl = buildBaseUrl(MEDIAS_URLS_ENDPOINT, apiFilter.getMediaId());
-		String parameters = getParameters(apiFilter);
-		String url = baseUrl + parameters;
+		String url = buildBaseUrl(MEDIAS_ENDPOINT, URLS_ENDPOINT, apiFilter.getMediaId());
 
-		if(makeRequest) {
-			return HttpUtils.get(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;	
+		return doGet(url, makeRequest);	
 	}
+
+	
+	/**
+	 * Build Request to GET /medias/{id}/rating
+	 */
+	public HttpRequest getMediaIdRating(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), RATING_ENDPOINT);
+
+		return doGet(url, makeRequest);	
+	}
+
+	/**
+	 * Build Request to GET /medias/{id}/thumbs
+	 */
+	public HttpRequest getMediaIdThumbs(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), THUMBS_ENDPOINT);
+		String parameters = getParameters(apiFilter,APIFilterParams.FILTER);
+		
+		String url = baseUrl + parameters;
+		
+		return doGet(url, makeRequest);	
+	}
+	
+	
+	/**
+	 * Build Request to GET /medias/{id}/views
+	 */
+	public HttpRequest getMediaIdViews(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), VIEWS_ENDPOINT);
+
+		return doGet(url, makeRequest);	
+	}
+	
 	
 	/**
 	 * Build Request to GET /channels
@@ -160,13 +189,7 @@ public class LiquidAPIRequestBuilder {
 													APIFilterParams.FILTER);
 		String url = baseUrl + parameters;
 
-		if(makeRequest) {
-			return HttpUtils.get(url);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		return httpRequest;	
+		return doGet(url, makeRequest);	
 	}
 	
 	/**
@@ -176,19 +199,12 @@ public class LiquidAPIRequestBuilder {
 		String url = buildBaseUrl(CHANNELS_ENDPOINT);
 		String body = JAXBParser.objectToString(channel, Channel.class);
 		
-		if(makeRequest) {
-			return HttpUtils.post(url, body);
-		}
-		
-		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(url);
-		httpRequest.setRequestBody(body);
-		return httpRequest;
+		return doPost(url, body, makeRequest);
 	}
 	
 	
 	/****************************************************************************************************
-	 **** Build functions *******************************************************************************
+	 **** Auxiliary Functions ***************************************************************************
 	 ****************************************************************************************************/
 	private String buildBaseUrl(String ... paths) {
 		StringBuilder sb = new StringBuilder(apiBaseUrl);
@@ -227,6 +243,9 @@ public class LiquidAPIRequestBuilder {
 				case SORT:
 					parameters.append( buildParam( APIFilterParams.SORT, apiFilter.getSort()) );
 					break;
+				case LAST_MODIFIED:
+					parameters.append( buildParam( APIFilterParams.LAST_MODIFIED, apiFilter.getLastModified()) );
+					break;
 			}
 		}
 		
@@ -245,6 +264,47 @@ public class LiquidAPIRequestBuilder {
 		return sb.toString();
 	}
 	
+	private HttpRequest doGet(String url, boolean makeRequest) throws RequestException {
+		if(makeRequest) {
+			return HttpUtils.get(url);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;
+	}
+	
+	private HttpRequest doPut(String url, String body, boolean makeRequest) throws RequestException {
+		if(makeRequest) {
+			return HttpUtils.put(url, body);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		httpRequest.setRequestBody(body);
+		return httpRequest;
+	}
+	
+	private HttpRequest doDelete(String url, boolean makeRequest) throws RequestException {
+		if(makeRequest) {
+			return HttpUtils.delete(url);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		return httpRequest;
+	}
+	
+	private HttpRequest doPost(String url, String body, boolean makeRequest) throws RequestException {
+		if(makeRequest) {
+			return HttpUtils.post(url, body);
+		}
+		
+		HttpRequest httpRequest = new HttpRequest();
+		httpRequest.setUrl(url);
+		httpRequest.setRequestBody(body);
+		return httpRequest;
+	}
 	
 	/****************************************************************************************************
 	 **** Getters and Setters ***************************************************************************

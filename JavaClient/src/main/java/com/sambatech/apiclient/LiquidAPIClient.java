@@ -9,10 +9,15 @@ import com.sambatech.apiclient.model.Channel;
 import com.sambatech.apiclient.model.Channels;
 import com.sambatech.apiclient.model.Media;
 import com.sambatech.apiclient.model.Medias;
+import com.sambatech.apiclient.model.RatingSummary;
+import com.sambatech.apiclient.model.RatingSummarys;
 import com.sambatech.apiclient.model.SimpleResult;
 import com.sambatech.apiclient.model.Status;
+import com.sambatech.apiclient.model.Thumbnails;
 import com.sambatech.apiclient.model.URL;
 import com.sambatech.apiclient.model.URLs;
+import com.sambatech.apiclient.model.View;
+import com.sambatech.apiclient.model.Views;
 import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIClient {
@@ -69,6 +74,34 @@ public class LiquidAPIClient {
 	
 	
 	/**
+	 * GET /medias/ratings 
+	 */
+	public RatingSummarys getMediasRatings(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediasRatings(apiFilter, true);
+		
+		// Serialize object
+		RatingSummarys ratingSummarys = JAXBParser.stringToObject(httpRequest.getResponseBody(), RatingSummarys.class);
+		
+		return ratingSummarys;
+	}
+	
+	
+	/**
+	 * GET /medias/views 
+	 */
+	public Views getMediasViews(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediasViews(apiFilter, true);
+		
+		// Serialize object
+		Views views = JAXBParser.stringToObject(httpRequest.getResponseBody(), Views.class);
+		
+		return views;
+	}
+	
+	
+	/**
 	 * GET /medias/{id} 
 	 */
 	public Media getMediaId(APIFilter apiFilter) throws RequestException, ParserException {
@@ -121,6 +154,47 @@ public class LiquidAPIClient {
 		URLs urls = JAXBParser.stringToObject(httpRequest.getResponseBody(), URLs.class);
 		
 		return urls;
+	}
+	
+	
+	/**
+	 * GET /medias/{id}/rating 
+	 */
+	public RatingSummary getMediaIdRating(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdRating(apiFilter, true);
+		
+		// Serialize object
+		RatingSummary ratingSummary = JAXBParser.stringToObject(httpRequest.getResponseBody(), RatingSummary.class);
+		
+		return ratingSummary;
+	}
+	
+	/**
+	 * GET /medias/{id}/thumbs
+	 */
+	public Thumbnails getMediaIdThumbs(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdThumbs(apiFilter, true);
+		
+		// Serialize object
+		Thumbnails thumbnails = JAXBParser.stringToObject(httpRequest.getResponseBody(), Thumbnails.class);
+		
+		return thumbnails;
+	}
+	
+	
+	/**
+	 * GET /medias/{id}/views
+	 */
+	public View getMediaIdViews(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdViews(apiFilter, true);
+		
+		// Serialize object
+		View view = JAXBParser.stringToObject(httpRequest.getResponseBody(), View.class);
+		
+		return view;
 	}
 	
 	
