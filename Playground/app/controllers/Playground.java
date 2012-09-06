@@ -4,8 +4,9 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import shared.Utils;
+import views.html.playground;
 
-import com.sambatech.apiclient.LiquidAPIClient;
+import com.sambatech.apiclient.LiquidAPIRequestBuilder;
 import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
@@ -15,7 +16,6 @@ import com.sambatech.apiclient.http.HttpRequest;
 
 import controllers.enums.Endpoint;
 import controllers.response.PlaygroundResponse;
-import views.html.playground;
 
 public class Playground extends Controller {
 	
@@ -50,11 +50,11 @@ public class Playground extends Controller {
 		
 		// Init API Client
 		String myApiBaseUrl = (apiBaseUrl != null && !apiBaseUrl.equals("")) ? apiBaseUrl : null;
-		LiquidAPIClient liquidAPIClient = null;
+		LiquidAPIRequestBuilder requestBuilder = null;
 		if(myApiBaseUrl != null && timeout != null) {
-			liquidAPIClient = new LiquidAPIClient(apikey, myApiBaseUrl, timeout);
+			requestBuilder = new LiquidAPIRequestBuilder(apikey, myApiBaseUrl, timeout);
 		} else {
-			liquidAPIClient = new LiquidAPIClient(apikey);
+			requestBuilder = new LiquidAPIRequestBuilder(apikey);
 		}
 		
 		HttpRequest httpRequest = null;
@@ -64,10 +64,10 @@ public class Playground extends Controller {
 			
 			switch(endpoint) {
 				case MEDIAS:
-					httpRequest = liquidAPIClient.getMediasRequest(apiFilter, true);
+					httpRequest = requestBuilder.getMedias(apiFilter, true);
 					break;
 				case MEDIAS_COUNT:
-					httpRequest = liquidAPIClient.getMediasCountRequest(true);
+					httpRequest = requestBuilder.getMediasCount(true);
 					break;
 			}
 			
