@@ -256,7 +256,7 @@ var configureEndPoint = function (endpointUri) {
 			$("#li-endpoint-channels-channelid").addClass("active");
 			showOnlyFields([ "filter-field", "channelid-field"]);
 			showOnlyButtons([ "btn-get", "btn-put" ]);
-			showOnlyPostFields();
+			showOnlyPostFields("channelUpdateOptions");
 			requiredFields = [ "channelid-field" ];
 			break;
 
