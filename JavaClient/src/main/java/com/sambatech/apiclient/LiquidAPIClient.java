@@ -285,4 +285,22 @@ public class LiquidAPIClient {
 		
 		return newChannel;
 	}
+	
+	/**
+	 * GET /channels/count 
+	 */
+	public int getChannelsCount() throws RequestException, ParserException {
+		HttpRequest httpRequest = requestBuilder.getChannelsCount(true);
+		
+		System.out.println(httpRequest.getUrl());
+		
+		// Serialize object
+		SimpleResult result = JAXBParser.stringToObject(httpRequest.getResponseBody(), SimpleResult.class);
+		
+		if(result == null || result.getValue() == null) {
+			return 0;
+		}
+		
+		return Integer.valueOf(result.getValue());
+	}
 }

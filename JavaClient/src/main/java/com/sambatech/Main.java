@@ -52,7 +52,9 @@ public class Main {
 			// Relatorio GA
 			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
-			liquidAPIClient.addMediaIdOutputViews(apiFilter);
+			int tt = liquidAPIClient.getChannelsCount();
+			
+			System.out.println(tt);
 			
 			
 		} catch (RequestException e) {

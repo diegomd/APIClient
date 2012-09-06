@@ -258,6 +258,15 @@ public class LiquidAPIRequestBuilder {
 		return doPost(url, body, null, makeRequest);
 	}
 	
+	/**
+	 * Build request to GET /channels/count
+	 */
+	public HttpRequest getChannelsCount(boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(CHANNELS_ENDPOINT, COUNT_ENDPOINT);
+		
+		return doGet(url, makeRequest);
+	}
+	
 	
 	/****************************************************************************************************
 	 **** Auxiliary Functions ***************************************************************************
