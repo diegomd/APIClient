@@ -229,6 +229,19 @@ public class LiquidAPIClient {
 	
 	
 	/**
+	 * Build Request to GET /medias/{id}/views
+	 */
+	public URLs getMediaIdOutputUrls(APIFilter apiFilter) throws RequestException, ParserException {
+		HttpRequest httpRequest = requestBuilder.getMediaIdOutputUrls(apiFilter, true);
+		
+		// Serialize object
+		URLs urls = JAXBParser.stringToObject(httpRequest.getResponseBody(), URLs.class);
+		
+		return urls;
+	}
+	
+	
+	/**
 	 * GET /channels 
 	 */
 	public Channels getChannels(APIFilter apiFilter) throws RequestException, ParserException {

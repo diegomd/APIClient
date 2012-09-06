@@ -212,6 +212,15 @@ public class LiquidAPIRequestBuilder {
 		return doGet(url, makeRequest);	
 	}
 	
+	/**
+	 * Build Request to GET /medias/{id}/views
+	 */
+	public HttpRequest getMediaIdOutputUrls(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(MEDIAS_ENDPOINT, URLS_ENDPOINT, apiFilter.getMediaId(), apiFilter.getOutputName());
+
+		return doGet(url, makeRequest);	
+	}
+	
 	
 	/**
 	 * Build Request to GET /channels
