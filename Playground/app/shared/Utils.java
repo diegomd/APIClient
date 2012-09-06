@@ -10,6 +10,7 @@ import javax.xml.transform.stream.StreamSource;
 
 public class Utils {
 	public static String transformXML(String xmlString){
+		if(xmlString == null) return null;
 
 		StreamSource styler = new javax.xml.transform.stream.StreamSource("public/stylesheets/styler.xsl");
 		String result = null;

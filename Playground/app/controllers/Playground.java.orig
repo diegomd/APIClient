@@ -18,7 +18,10 @@ import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
 import com.sambatech.apiclient.model.Channel;
+<<<<<<< HEAD
+=======
 import com.sambatech.apiclient.model.Thumbnail;
+>>>>>>> 94f6b9a86ea864d1f75bffe73f93a792d7a4c8c8
 
 import controllers.enums.Endpoint;
 import controllers.enums.Method;
