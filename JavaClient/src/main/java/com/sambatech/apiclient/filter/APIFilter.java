@@ -13,6 +13,8 @@ public class APIFilter {
 	private OrderBy orderBy;
 	private Sort sort;
 	private Calendar lastModified;
+	private String sessionId;
+	private Integer quarter;
 	
 	public Integer getFirst() {
 		return first;
@@ -67,5 +69,17 @@ public class APIFilter {
 	}
 	public Calendar getLastModified() {
 		return lastModified;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setQuarter(Integer quarter) {
+		this.quarter = quarter;
+	}
+	public Integer getQuarter() {
+		return quarter;
 	}
 }

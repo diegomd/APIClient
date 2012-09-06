@@ -14,7 +14,6 @@ import com.sambatech.apiclient.model.RatingSummarys;
 import com.sambatech.apiclient.model.SimpleResult;
 import com.sambatech.apiclient.model.Status;
 import com.sambatech.apiclient.model.Thumbnails;
-import com.sambatech.apiclient.model.URL;
 import com.sambatech.apiclient.model.URLs;
 import com.sambatech.apiclient.model.View;
 import com.sambatech.apiclient.model.Views;
@@ -154,6 +153,19 @@ public class LiquidAPIClient {
 		URLs urls = JAXBParser.stringToObject(httpRequest.getResponseBody(), URLs.class);
 		
 		return urls;
+	}
+	
+	
+	/**
+	 * POST /medias/views/{id} 
+	 */
+	public Status addMediaIdViews(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.addMediaIdViews(apiFilter, true);
+		
+		Status status = JAXBParser.stringToObject(httpRequest.getResponseBody(), Status.class);
+		
+		return status;
 	}
 	
 	

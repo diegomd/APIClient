@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import com.sambatech.apiclient.exception.RequestException;
 
@@ -78,10 +79,14 @@ public class HttpUtils {
 	}
 
 	public static HttpRequest post(String url, String body) throws RequestException {
-		return post(url, body, TIMEOUT);
+		return post(url, body, null, TIMEOUT);
 	}
 	
-	public static HttpRequest post(String url, String body, int timeout) throws RequestException {
+	public static HttpRequest post(String url, String body, List<Cookie> cookies) throws RequestException {
+		return post(url, body, cookies, TIMEOUT);
+	}
+	
+	public static HttpRequest post(String url, String body, List<Cookie> cookies, int timeout) throws RequestException {
 		URL urlObject = null;
 		HttpURLConnection conn = null;
 		
@@ -93,6 +98,7 @@ public class HttpUtils {
 			conn.setConnectTimeout(timeout);
 			conn.setRequestProperty("Content-Type", "application/xml");
 			conn.setDoOutput(true);
+			setCookies(conn, cookies);
 			
 		    OutputStreamWriter wsr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
 		    wsr.write(body);
@@ -185,5 +191,15 @@ public class HttpUtils {
 		}
 		
 		return execute(conn);
+	}
+	
+	private static void setCookies(HttpURLConnection conn, List<Cookie> cookies) {
+		if(cookies == null || cookies.size() == 0) {
+			return;
+		}
+		
+		for(Cookie cookie : cookies) {
+			conn.setRequestProperty("Cookie", cookie.getName() + "=" + cookie.getValue());
+		}
 	}
 }

@@ -6,15 +6,18 @@ import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.model.Thumbnail;
 import com.sambatech.apiclient.model.Thumbnails;
+import com.sambatech.apiclient.model.View;
 
 /*
 DONE		/medias
 DONE		/medias/count
 DONE		/medias/ratings
 DONE		/medias/views
-DONE		/medias/{mediaId}
+DONE		/medias/{mediaId}				GET
+DONE		/medias/{mediaId}				PUT
+DONE		/medias/{mediaId}				DELETE
 DONE		/medias/urls/{mediaFileId}
-			/medias/views/{mediaFileId}
+DONE		/medias/views/{mediaFileId}
 DONE		/medias/{mediaId}/rating
 			/medias/{mediaId}/related
 DONE		/medias/{mediaId}/thumbs
@@ -36,9 +39,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		APIFilter apiFilter = new APIFilter();
-
 		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
-
+		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
+		apiFilter.setQuarter(25);
+		
 		try {
 			// EAD
 			//LiquidAPIClient liquidAPIClient = new LiquidAPIClient("3c7de826b1e566a1f2a282a1e7088495");
@@ -47,15 +51,12 @@ public class Main {
 			// Relatorio GA
 			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
-			liquidAPIClient.getMediaId(apiFilter);
+			liquidAPIClient.addMediaIdViews(apiFilter);
 			
-			Thumbnails thumbnails = liquidAPIClient.getMediaIdThumbs(apiFilter);
-			for(Thumbnail thumb : thumbnails.getThumbnailsList()) {
-				System.out.println(thumb.getUrl());
-			}
 			
 		} catch (RequestException e) {
 			System.out.println("REQUEST ERROR");
+			System.out.println(e.getHttpRequest().getUrl());
 			System.out.println(e.getHttpRequest().getResponseCode());
 			System.out.println(e.getHttpRequest().getResponseBody());
 		} catch (ParserException e) {
