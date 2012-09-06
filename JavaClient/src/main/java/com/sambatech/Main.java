@@ -47,6 +47,8 @@ public class Main {
 			// Relatorio GA
 			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
+			liquidAPIClient.getMediaId(apiFilter);
+			
 			Thumbnails thumbnails = liquidAPIClient.getMediaIdThumbs(apiFilter);
 			for(Thumbnail thumb : thumbnails.getThumbnailsList()) {
 				System.out.println(thumb.getUrl());

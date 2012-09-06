@@ -69,9 +69,28 @@ public class Playground extends Controller {
 				case MEDIAS_COUNT:
 					httpRequest = requestBuilder.getMediasCount(true);
 					break;
-			}
-			
-			if( endpoint.equals("/medias") ) {
+				case MEDIAS_RATINGS:
+					httpRequest = requestBuilder.getMediasRatings(apiFilter, true);
+					break;
+				case MEDIAS_VIEWS:
+					httpRequest = requestBuilder.getMediasViews(apiFilter, true);
+					break;
+				case MEDIAS_MEDIAID:
+					httpRequest = requestBuilder.getMediaId(apiFilter, true);
+					break;
+				case MEDIAS_URLS_MEDIAFILEID:
+					httpRequest = requestBuilder.getMediaIdUrls(apiFilter, true);
+					break;
+				case MEDIAS_MEDIAID_RATING:
+					httpRequest = requestBuilder.getMediaIdRating(apiFilter, true);
+					break;
+				case MEDIAS_MEDIAID_VIEWS:
+					httpRequest = requestBuilder.getMediaIdViews(apiFilter, true);
+					break;
+				case CHANNELS:
+					httpRequest = requestBuilder.getChannels(apiFilter, true);
+					break;
+				
 			}
 			
 			String responseBody = Utils.transformXML( httpRequest.getResponseBody() );
@@ -107,6 +126,8 @@ public class Playground extends Controller {
 		public String filter;
 		public OrderBy orderBy;
 		public Sort sort;
+		public String mediaId;
+		public String mediaFileId;
 		
 		@Override
 		public String toString() {
@@ -153,14 +174,18 @@ public class Playground extends Controller {
 		if (request.search != null && request.search.length() > 0)
 			apiFilter.setSearch(request.search);
 		
-		
 		if (request.orderBy != null)
 			apiFilter.setOrderBy(request.orderBy);
-		
 		
 		if (request.sort != null)
 			apiFilter.setSort(request.sort);
 		
+		if (request.mediaId != null && request.mediaId.length() > 0) 
+			apiFilter.setMediaId(request.mediaId);
+	
+		if (request.mediaFileId != null && request.mediaFileId.length() > 0)
+			// TODO: Mudar para setMediaFileId
+			apiFilter.setMediaId(request.mediaFileId);
 		
 		return apiFilter;
 	}

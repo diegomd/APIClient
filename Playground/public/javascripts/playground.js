@@ -306,7 +306,7 @@ $(document).ready(function() {
 	SyntaxHighlighter.all();
 	
 	// Endpoint input
-	configureEndPoint("@playgroundRequest.endpoint");
+	configureEndPoint($('#endpoint-field').val());
 	
 	/* Events */
 	$("#endpoint-medias").live('click', function(){
