@@ -4,6 +4,8 @@ import com.sambatech.apiclient.LiquidAPIClient;
 import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
+import com.sambatech.apiclient.model.Channel;
+import com.sambatech.apiclient.model.Status;
 import com.sambatech.apiclient.model.Thumbnail;
 import com.sambatech.apiclient.model.Thumbnails;
 import com.sambatech.apiclient.model.View;
@@ -39,10 +41,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		APIFilter apiFilter = new APIFilter();
-		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
-		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
-		apiFilter.setQuarter(25);
-		apiFilter.setOutputName("_RAW");
+//		apiFilter.setMediaId("7982432c9020b6370f33fffb44d85d9b");
+//		apiFilter.setSessionId("7982432c9020b6370f33fffb44d85d9b");
+//		apiFilter.setQuarter(25);
+//		apiFilter.setOutputName("_RAW");
+		apiFilter.setChannelId("4");
 		
 		try {
 			// EAD
@@ -52,10 +55,7 @@ public class Main {
 			// Relatorio GA
 			LiquidAPIClient liquidAPIClient = new LiquidAPIClient("e25e572478af8d4255cb9f7989dbe491");
 			
-			int tt = liquidAPIClient.getChannelsCount();
-			
-			System.out.println(tt);
-			
+			Channel channel = liquidAPIClient.getChannelId(apiFilter);
 			
 		} catch (RequestException e) {
 			System.out.println("REQUEST ERROR");

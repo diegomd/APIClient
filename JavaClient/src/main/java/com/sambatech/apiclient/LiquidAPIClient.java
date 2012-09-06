@@ -273,7 +273,7 @@ public class LiquidAPIClient {
 	}
 	
 	/**
-	 * PUT /channels 
+	 * POST /channels 
 	 * @param mediaUpdate 
 	 */
 	public Channel addChannel(APIFilter apiFilter, Channel channel) throws RequestException, ParserException {
@@ -302,5 +302,32 @@ public class LiquidAPIClient {
 		}
 		
 		return Integer.valueOf(result.getValue());
+	}
+	
+	/**
+	 * GET /channels/{channelId} 
+	 */
+	public Channel getChannelId(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getChannelId(apiFilter, true);
+		
+		// Serialize object
+		Channel channel = JAXBParser.stringToObject(httpRequest.getResponseBody(), Channel.class);
+		
+		return channel;
+	}
+	
+	/**
+	 * PUT /channels/{channelId} 
+	 * @param mediaUpdate 
+	 */
+	public Status updateChannelId(APIFilter apiFilter, Channel channel) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.updateChannelId(apiFilter, channel, true);
+		
+		// Serialize object
+		Status status = JAXBParser.stringToObject(httpRequest.getResponseBody(), Status.class);
+		
+		return status;
 	}
 }

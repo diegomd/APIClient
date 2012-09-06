@@ -249,7 +249,7 @@ public class LiquidAPIRequestBuilder {
 	}
 	
 	/**
-	 * Build Request to PUT /channels
+	 * Build Request to POST /channels
 	 */
 	public HttpRequest addChannel(APIFilter apiFilter, Channel channel, boolean makeRequest) throws RequestException, ParserException {
 		String url = buildBaseUrl(CHANNELS_ENDPOINT);
@@ -265,6 +265,25 @@ public class LiquidAPIRequestBuilder {
 		String url = buildBaseUrl(CHANNELS_ENDPOINT, COUNT_ENDPOINT);
 		
 		return doGet(url, makeRequest);
+	}
+	
+	/**
+	 * Build Request to GET /channels/{channelId}
+	 */
+	public HttpRequest getChannelId(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(CHANNELS_ENDPOINT, apiFilter.getChannelId());
+		
+		return doGet(url, makeRequest);
+	}	
+	
+	/**
+	 * Build Request to PUT /channels/{channelId}
+	 */
+	public HttpRequest updateChannelId(APIFilter apiFilter, Channel channel, boolean makeRequest) throws RequestException, ParserException {
+		String url = buildBaseUrl(CHANNELS_ENDPOINT, apiFilter.getChannelId());
+		String body = JAXBParser.objectToString(channel, Channel.class);
+		
+		return doPut(url, body, makeRequest);
 	}
 	
 	
