@@ -1,13 +1,18 @@
 package com.sambatech.apiclient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sambatech.apiclient.body.MediaUpdate;
 import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.APIFilterParams;
+import com.sambatech.apiclient.http.Cookie;
 import com.sambatech.apiclient.http.HttpRequest;
 import com.sambatech.apiclient.http.HttpUtils;
 import com.sambatech.apiclient.model.Channel;
+import com.sambatech.apiclient.model.View;
 import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIRequestBuilder {
@@ -18,7 +23,8 @@ public class LiquidAPIRequestBuilder {
 	private static final String RATING_ENDPOINT 	= "rating";
 	private static final String VIEWS_ENDPOINT 		= "views";
 	private static final String URLS_ENDPOINT 		= "urls";
-	private static final String THUMBS_ENDPOINT 		= "thumbs";
+	private static final String THUMBS_ENDPOINT 	= "thumbs";
+	private static final String RELATED_ENDPOINT 	= "related";
 	private static final String CHANNELS_ENDPOINT	= "channels";
 	
 	private String apiBaseUrl = "http://fast.api.liquidplatform.com/2.0";
@@ -145,6 +151,18 @@ public class LiquidAPIRequestBuilder {
 
 		return doGet(url, makeRequest);	
 	}
+	
+	/**
+	 * Build Request to POST /medias/views/{id}
+	 */
+	public HttpRequest addMediaIdViews(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, VIEWS_ENDPOINT, apiFilter.getMediaId());
+		String parameters = getParameters(apiFilter, APIFilterParams.QUARTER);
+		String url = baseUrl + parameters;
+
+		List<Cookie> cookies = getCookies(apiFilter);
+		return doPost(url, "", cookies, makeRequest);	
+	}
 
 	
 	/**
@@ -155,6 +173,22 @@ public class LiquidAPIRequestBuilder {
 
 		return doGet(url, makeRequest);	
 	}
+	
+	
+	/**
+	 * Build Request to GET /medias/{id}/related
+	 */
+	public HttpRequest getMediaIdRelated(APIFilter apiFilter, boolean makeRequest) throws RequestException, ParserException {
+		String baseUrl = buildBaseUrl(MEDIAS_ENDPOINT, apiFilter.getMediaId(), RELATED_ENDPOINT);
+		String parameters = getParameters(apiFilter, APIFilterParams.FIRST,
+													APIFilterParams.LIMIT,
+													APIFilterParams.FILTER);
+		
+		String url = baseUrl + parameters;
+		
+		return doGet(url, makeRequest);	
+	}
+	
 
 	/**
 	 * Build Request to GET /medias/{id}/thumbs
@@ -199,7 +233,7 @@ public class LiquidAPIRequestBuilder {
 		String url = buildBaseUrl(CHANNELS_ENDPOINT);
 		String body = JAXBParser.objectToString(channel, Channel.class);
 		
-		return doPost(url, body, makeRequest);
+		return doPost(url, body, null, makeRequest);
 	}
 	
 	
@@ -246,6 +280,12 @@ public class LiquidAPIRequestBuilder {
 				case LAST_MODIFIED:
 					parameters.append( buildParam( APIFilterParams.LAST_MODIFIED, apiFilter.getLastModified()) );
 					break;
+				case SESSION_ID:
+					parameters.append( buildParam( APIFilterParams.SESSION_ID, apiFilter.getSessionId()) );
+					break;
+				case QUARTER:
+					parameters.append( buildParam( APIFilterParams.QUARTER, apiFilter.getQuarter()) );
+					break;
 			}
 		}
 		
@@ -262,6 +302,21 @@ public class LiquidAPIRequestBuilder {
 		sb.append("=");
 		sb.append(value);
 		return sb.toString();
+	}
+	
+	private List<Cookie> getCookies(APIFilter apiFilter) {
+		if(apiFilter != null && apiFilter.getSessionId() != null && !apiFilter.getSessionId().equals("")) {
+			Cookie cookie = new Cookie();
+			cookie.setName(APIFilterParams.SESSION_ID.toString());
+			cookie.setValue(apiFilter.getSessionId());
+			
+			List<Cookie> cookies = new ArrayList<Cookie>();
+			cookies.add(cookie);
+			
+			return cookies;
+		}
+		
+		return null;
 	}
 	
 	private HttpRequest doGet(String url, boolean makeRequest) throws RequestException {
@@ -295,9 +350,9 @@ public class LiquidAPIRequestBuilder {
 		return httpRequest;
 	}
 	
-	private HttpRequest doPost(String url, String body, boolean makeRequest) throws RequestException {
+	private HttpRequest doPost(String url, String body, List<Cookie> cookies, boolean makeRequest) throws RequestException {
 		if(makeRequest) {
-			return HttpUtils.post(url, body);
+			return HttpUtils.post(url, body, cookies);
 		}
 		
 		HttpRequest httpRequest = new HttpRequest();

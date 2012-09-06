@@ -8,7 +8,9 @@ public enum APIFilterParams {
 	FILTER("filter"),
 	ORDERBY("orderBy"),
 	SORT("sort"),
-	LAST_MODIFIED("lastModified")
+	LAST_MODIFIED("lastModified"),
+	SESSION_ID("sessionId"),
+	QUARTER("quarter")
 	;
 	
 	private final String value;

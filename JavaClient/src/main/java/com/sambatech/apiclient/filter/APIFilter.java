@@ -15,12 +15,12 @@ public class APIFilter {
 	private OrderBy orderBy;
 	private Sort sort;
 	private Calendar lastModified;
+	private String sessionId;
+	private Integer quarter;
 	
 	private Calendar begin;
 	private Calendar end;
 	private String outputName;
-	private String sessionId;
-	private String quarter;
 	private String channelId;
 	private String mediaFileId;
 	
@@ -105,18 +105,6 @@ public class APIFilter {
 	public void setOutputName(String outputName) {
 		this.outputName = outputName;
 	}
-	public String getSessionId() {
-		return sessionId;
-	}
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
-	public String getQuarter() {
-		return quarter;
-	}
-	public void setQuarter(String quarter) {
-		this.quarter = quarter;
-	}
 	public String getChannelId() {
 		return channelId;
 	}
@@ -138,5 +126,16 @@ public class APIFilter {
 		return calendar;
 	}
 	
-	
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setQuarter(Integer quarter) {
+		this.quarter = quarter;
+	}
+	public Integer getQuarter() {
+		return quarter;
+	}
 }

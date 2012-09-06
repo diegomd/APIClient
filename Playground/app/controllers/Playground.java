@@ -221,7 +221,7 @@ public class Playground extends Controller {
 		public String end;
 		public String outputName;
 		public String sessionId;
-		public String quarter;
+		public Integer quarter;
 		public String channelId;
 		
 		//MediaUpdate
@@ -308,7 +308,7 @@ public class Playground extends Controller {
 		if (request.sessionId != null && request.sessionId.length() > 0)
 			apiFilter.setSessionId(request.sessionId);
 		
-		if (request.quarter != null && request.quarter.length() > 0)
+		if (request.quarter != null)
 			apiFilter.setQuarter(request.quarter);
 		
 		if (request.channelId != null && request.channelId.length() > 0)

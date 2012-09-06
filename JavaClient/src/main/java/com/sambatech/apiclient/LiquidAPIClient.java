@@ -14,7 +14,6 @@ import com.sambatech.apiclient.model.RatingSummarys;
 import com.sambatech.apiclient.model.SimpleResult;
 import com.sambatech.apiclient.model.Status;
 import com.sambatech.apiclient.model.Thumbnails;
-import com.sambatech.apiclient.model.URL;
 import com.sambatech.apiclient.model.URLs;
 import com.sambatech.apiclient.model.View;
 import com.sambatech.apiclient.model.Views;
@@ -158,6 +157,19 @@ public class LiquidAPIClient {
 	
 	
 	/**
+	 * POST /medias/views/{id} 
+	 */
+	public Status addMediaIdViews(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.addMediaIdViews(apiFilter, true);
+		
+		Status status = JAXBParser.stringToObject(httpRequest.getResponseBody(), Status.class);
+		
+		return status;
+	}
+	
+	
+	/**
 	 * GET /medias/{id}/rating 
 	 */
 	public RatingSummary getMediaIdRating(APIFilter apiFilter) throws RequestException, ParserException {
@@ -169,6 +181,24 @@ public class LiquidAPIClient {
 		
 		return ratingSummary;
 	}
+	
+	/**
+	 * GET /medias/{id}/related 
+	 */
+	public Medias getMediaIdRelated(APIFilter apiFilter) throws RequestException, ParserException {
+		// Http Request
+		HttpRequest httpRequest = requestBuilder.getMediaIdRelated(apiFilter, true);
+		
+		// Serialize object
+		Medias medias = JAXBParser.stringToObject(httpRequest.getResponseBody(), Medias.class);
+		
+		// Http Response info
+		medias.setHttpRequest(httpRequest);
+		
+		return medias;
+		
+	}
+	
 	
 	/**
 	 * GET /medias/{id}/thumbs
