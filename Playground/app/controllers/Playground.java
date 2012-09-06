@@ -8,6 +8,7 @@ import play.mvc.Result;
 import shared.Utils;
 import views.html.playground;
 
+import com.sambatech.apiclient.LiquidAPIClient;
 import com.sambatech.apiclient.LiquidAPIRequestBuilder;
 import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
@@ -70,15 +71,19 @@ public class Playground extends Controller {
 				case MEDIAS:
 					httpRequest = requestBuilder.getMedias(apiFilter, true);
 					break;
+					
 				case MEDIAS_COUNT:
 					httpRequest = requestBuilder.getMediasCount(true);
 					break;
+					
 				case MEDIAS_RATINGS:
 					httpRequest = requestBuilder.getMediasRatings(apiFilter, true);
 					break;
+					
 				case MEDIAS_VIEWS:
 					httpRequest = requestBuilder.getMediasViews(apiFilter, true);
 					break;
+					
 				case MEDIAS_MEDIAID:
 					switch(request.method) {
 						case PUT:
@@ -93,18 +98,74 @@ public class Playground extends Controller {
 							break;
 					}
 					break;
+					
 				case MEDIAS_URLS_MEDIAFILEID:
 					httpRequest = requestBuilder.getMediaIdUrls(apiFilter, true);
 					break;
+				
 				case MEDIAS_MEDIAID_RATING:
 					httpRequest = requestBuilder.getMediaIdRating(apiFilter, true);
 					break;
+
+				case MEDIAS_MEDIAID_THUMBS:
+					httpRequest = requestBuilder.getMediaIdThumbs(apiFilter, true);
+					break;
+					
 				case MEDIAS_MEDIAID_VIEWS:
 					httpRequest = requestBuilder.getMediaIdViews(apiFilter, true);
 					break;
+					
+				case MEDIAS_MEDIAID_RELATED:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case MEDIAS_URLS_MEDIAID_OUTPUTNAME:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case MEDIAS_MEDIAID_VIEWS_OUTPUTNAME:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+
+				case MEDIAS_VIEWS_MEDIAFILEID:
+					httpRequest = requestBuilder.getMediaIdThumbs(apiFilter, true);
+					break;					
+					
 				case CHANNELS:
 					httpRequest = requestBuilder.getChannels(apiFilter, true);
 					break;
+					
+				case CHANNELS_COUNT:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case CHANNELS_CHANNELID:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case OUTPUTS:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case OUTPUTS_COUNT:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case REPORT_DETAIL_TRAFFIC:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case REPORT_DETAIL_MEDIAS:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case REPORT_DETAIL_VIEWS:
+					//httpRequest = requestBuilder.get...TODO;
+					break;
+				
+				case REPORT_DETAIL_STORAGE:
+					//httpRequest = requestBuilder.get...TODO;
+					break;								
 				
 			}
 			
