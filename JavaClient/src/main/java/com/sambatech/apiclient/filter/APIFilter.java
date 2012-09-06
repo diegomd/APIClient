@@ -1,5 +1,7 @@
 package com.sambatech.apiclient.filter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class APIFilter {
@@ -13,6 +15,14 @@ public class APIFilter {
 	private OrderBy orderBy;
 	private Sort sort;
 	private Calendar lastModified;
+	
+	private Calendar begin;
+	private Calendar end;
+	private String outputName;
+	private String sessionId;
+	private String quarter;
+	private String channelId;
+	private String mediaFileId;
 	
 	public Integer getFirst() {
 		return first;
@@ -65,7 +75,68 @@ public class APIFilter {
 	public void setLastModified(Calendar lastModified) {
 		this.lastModified = lastModified;
 	}
+	public void setLastModified(String lastModified, SimpleDateFormat simpleDateFormat) throws ParseException {
+		this.lastModified = getCalendarFromString(lastModified, simpleDateFormat);
+	}
 	public Calendar getLastModified() {
 		return lastModified;
 	}
+	public Calendar getBegin() {
+		return begin;
+	}
+	public void setBegin(Calendar begin) {
+		this.begin = begin;
+	}
+	public void setBegin(String lastModified, SimpleDateFormat simpleDateFormat) throws ParseException {
+		this.begin = getCalendarFromString(lastModified, simpleDateFormat);
+	}
+	public Calendar getEnd() {
+		return end;
+	}
+	public void setEnd(Calendar end) {
+		this.end = end;
+	}
+	public void setEnd(String lastModified, SimpleDateFormat simpleDateFormat) throws ParseException {
+		this.end = getCalendarFromString(lastModified, simpleDateFormat);
+	}
+	public String getOutputName() {
+		return outputName;
+	}
+	public void setOutputName(String outputName) {
+		this.outputName = outputName;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getQuarter() {
+		return quarter;
+	}
+	public void setQuarter(String quarter) {
+		this.quarter = quarter;
+	}
+	public String getChannelId() {
+		return channelId;
+	}
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
+	public String getMediaFileId() {
+		return mediaFileId;
+	}
+	public void setMediaFileId(String mediaFileId) {
+		this.mediaFileId = mediaFileId;
+	}
+	
+	private static Calendar getCalendarFromString(String stringDate, SimpleDateFormat dateFormat) throws ParseException {
+		Calendar calendar = Calendar.getInstance();
+
+		dateFormat.setLenient(false);
+		calendar.setTime(dateFormat.parse(stringDate));
+		return calendar;
+	}
+	
+	
 }

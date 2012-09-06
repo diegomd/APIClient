@@ -1,6 +1,7 @@
 package controllers;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -8,15 +9,14 @@ import play.mvc.Result;
 import shared.Utils;
 import views.html.playground;
 
-import com.sambatech.apiclient.LiquidAPIClient;
 import com.sambatech.apiclient.LiquidAPIRequestBuilder;
+import com.sambatech.apiclient.body.MediaUpdate;
 import com.sambatech.apiclient.exception.ParserException;
 import com.sambatech.apiclient.exception.RequestException;
 import com.sambatech.apiclient.filter.APIFilter;
 import com.sambatech.apiclient.filter.OrderBy;
 import com.sambatech.apiclient.filter.Sort;
 import com.sambatech.apiclient.http.HttpRequest;
-import com.sambatech.apiclient.body.MediaUpdate;
 
 import controllers.enums.Endpoint;
 import controllers.enums.Method;
@@ -30,9 +30,19 @@ public class Playground extends Controller {
 	public static Result index() {
 		APIRequest request = getForm(APIRequest.class);
 		
-		APIFilter apiFilter = getAPIFilter(request);
+		APIFilter apiFilter = null;
+		PlaygroundResponse playgroundResponse = null;
 		
-		PlaygroundResponse playgroundResponse = getPlaygroundResponse(request, apiFilter);
+		try {
+			apiFilter = getAPIFilter(request);
+			playgroundResponse = getPlaygroundResponse(request, apiFilter);
+
+		} catch (ParseException e) {
+			playgroundResponse = new PlaygroundResponse();
+			playgroundResponse.apikey = request.apikey;
+			playgroundResponse.endpoint = request.endpoint;
+			playgroundResponse.responseBody = e.getMessage();
+		}
 		
 		return ok(playground.render(playgroundResponse));
 	}
@@ -206,6 +216,14 @@ public class Playground extends Controller {
 		public String mediaId;
 		public String mediaFileId;
 		
+		public String lastModified;
+		public String begin;
+		public String end;
+		public String outputName;
+		public String sessionId;
+		public String quarter;
+		public String channelId;
+		
 		//MediaUpdate
 		public String postTitle;
 		public Integer postChannelId;
@@ -242,7 +260,7 @@ public class Playground extends Controller {
 		return result;		
 	}
 	
-	private static APIFilter getAPIFilter(APIRequest request) {
+	private static APIFilter getAPIFilter(APIRequest request) throws ParseException {
 		
 		System.out.println(request.toString());
 		
@@ -273,9 +291,29 @@ public class Playground extends Controller {
 			apiFilter.setMediaId(request.mediaId);
 	
 		if (request.mediaFileId != null && request.mediaFileId.length() > 0)
-			// TODO: Mudar para setMediaFileId
-			apiFilter.setMediaId(request.mediaFileId);
+			apiFilter.setMediaFileId(request.mediaFileId);
 		
+		if (request.lastModified != null && request.lastModified.length() > 0)
+			apiFilter.setLastModified(request.lastModified, new SimpleDateFormat("yyyyMMddHHmmss"));
+		
+		if (request.begin != null && request.begin.length() > 0)
+			apiFilter.setBegin(request.begin, new SimpleDateFormat("yyyyMMddHHmmss"));
+		
+		if (request.end != null && request.end.length() > 0)
+			apiFilter.setEnd(request.end, new SimpleDateFormat("yyyyMMddHHmmss"));
+		
+		if (request.outputName != null && request.outputName.length() > 0)
+			apiFilter.setOutputName(request.outputName);
+
+		if (request.sessionId != null && request.sessionId.length() > 0)
+			apiFilter.setSessionId(request.sessionId);
+		
+		if (request.quarter != null && request.quarter.length() > 0)
+			apiFilter.setQuarter(request.quarter);
+		
+		if (request.channelId != null && request.channelId.length() > 0)
+			apiFilter.setChannelId(request.channelId);		
+				
 		return apiFilter;
 	}
 	
