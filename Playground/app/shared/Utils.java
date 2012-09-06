@@ -22,7 +22,7 @@ public class Utils {
 		    
 		    //Set XML indent configs.
 		    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		    transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "4");
 
 		    transformer.transform(
 		            new javax.xml.transform.stream.StreamSource(reader), 

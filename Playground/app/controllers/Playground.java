@@ -89,25 +89,6 @@ public class Playground extends Controller {
 		
 		return playgroundResponse;
 	}
-	
-	public static void main (String [] args) {
-		/*
-		System.out.println(Utils.transformXML("<teste><object>bla</object></teste>"));		
-		
-		APIRequest request = new APIRequest();
-		request.apikey = "18a3dcacfff63aca5dd93594eb658098";
-		request.limit = 1;
-		
-		APIFilter apiFilter = getAPIFilter(request);
-
-		LiquidAPIClient liquidAPIClient = new LiquidAPIClient(request.apikey);
-		Medias medias = liquidAPIClient.getMedias(apiFilter);
-		
-		String responseBody = medias.getHttpResponse().getResponseBody();		
-		System.out.println(Utils.transformXML(responseBody));
-		*/
-	}
-	
 
 	/****************************
 	 * Request maps 
