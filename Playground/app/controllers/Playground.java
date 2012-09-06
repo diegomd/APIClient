@@ -152,8 +152,15 @@ public class Playground extends Controller {
 					break;
 				
 				case CHANNELS_CHANNELID:
-					Channel channel = getChannel(request);
-					httpRequest = requestBuilder.updateChannelId(apiFilter, channel, true);
+					switch(request.method) {
+						case POST:
+							Channel channel = getChannel(request);
+							httpRequest = requestBuilder.updateChannelId(apiFilter, channel, true);
+							break;
+						default:	
+							httpRequest = requestBuilder.getChannelId(apiFilter, true);
+							break;
+					}
 					break;
 				
 				case OUTPUTS:
