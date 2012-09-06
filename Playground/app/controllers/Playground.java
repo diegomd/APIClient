@@ -126,15 +126,15 @@ public class Playground extends Controller {
 					break;
 					
 				case MEDIAS_MEDIAID_RELATED:
-					//httpRequest = requestBuilder.get...TODO;
+					httpRequest = requestBuilder.getMediaIdRelated(apiFilter, true);
 					break;
 				
 				case MEDIAS_URLS_MEDIAID_OUTPUTNAME:
-					//httpRequest = requestBuilder.get...TODO;
+					httpRequest = requestBuilder.getMediaIdOutputUrls(apiFilter, true);
 					break;
 				
 				case MEDIAS_MEDIAID_VIEWS_OUTPUTNAME:
-					//httpRequest = requestBuilder.get...TODO;
+					httpRequest = requestBuilder.addMediaIdOutputViews(apiFilter, true);
 					break;
 
 				case MEDIAS_VIEWS_MEDIAFILEID:

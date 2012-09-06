@@ -12,7 +12,6 @@ import com.sambatech.apiclient.http.Cookie;
 import com.sambatech.apiclient.http.HttpRequest;
 import com.sambatech.apiclient.http.HttpUtils;
 import com.sambatech.apiclient.model.Channel;
-import com.sambatech.apiclient.model.View;
 import com.sambatech.apiclient.parser.JAXBParser;
 
 public class LiquidAPIRequestBuilder {
@@ -336,6 +335,27 @@ public class LiquidAPIRequestBuilder {
 				case QUARTER:
 					parameters.append( buildParam( APIFilterParams.QUARTER, apiFilter.getQuarter()) );
 					break;
+					
+				case END:
+					parameters.append( buildParam( APIFilterParams.END, apiFilter.getEnd()) );
+					break;
+
+				case BEGIN:
+					parameters.append( buildParam( APIFilterParams.BEGIN, apiFilter.getBegin()) );
+					break;
+					
+				case OUTPUT_NAME:
+					parameters.append( buildParam( APIFilterParams.OUTPUT_NAME, apiFilter.getOutputName()) );
+					break;					
+					
+				case MEDIA_ID:
+					parameters.append( buildParam( APIFilterParams.MEDIA_ID, apiFilter.getMediaId()) );
+					break;					
+					
+				case MEDIAFILE_ID:
+					parameters.append( buildParam( APIFilterParams.MEDIAFILE_ID, apiFilter.getMediaFileId()) );
+					break;					
+					
 			}
 		}
 		

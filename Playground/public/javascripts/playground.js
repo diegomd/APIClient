@@ -231,7 +231,7 @@ var configureEndPoint = function (endpointUri) {
 		case "MEDIAS_MEDIAID_VIEWS_OUTPUTNAME":
 			$("#li-endpoint-medias-mediaid-views-outputname").addClass("active");
 			showOnlyFields([ "mediaid-field", "outputname-field", "sessionid-field", "quarter-field" ]);
-			showOnlyButtons([ "btn-get"]);
+			showOnlyButtons([ "btn-post"]);
 			showOnlyPostFields();
 			requiredFields = [ "mediaid-field", "outputname-field", "sessionid-field" ];
 			break;	

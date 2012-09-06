@@ -1,5 +1,6 @@
 package com.sambatech.apiclient.filter;
 
+
 public enum APIFilterParams {
 	FIRST("first"),
 	LIMIT("limit"), 
@@ -10,8 +11,13 @@ public enum APIFilterParams {
 	SORT("sort"),
 	LAST_MODIFIED("lastModified"),
 	SESSION_ID("sessionId"),
-	QUARTER("quarter")
-	;
+	QUARTER("quarter"),
+	BEGIN("begin"),
+	END("end"),
+	OUTPUT_NAME("outputName"),
+	CHANNEL_ID("channelId"),
+	MEDIA_ID("mediaId"),
+	MEDIAFILE_ID("mediaFileId");
 	
 	private final String value;
 
